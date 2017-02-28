@@ -1,0 +1,600 @@
+body {
+	font-family:Simsun,Arial,tahoma,sans-serif;
+	text-align:left;
+	FONT-SIZE: 12px;
+	color:#000000;
+	TEXT-DECORATION: none;
+	margin: 0px;
+	padding:0px;
+	background-color:#F7E0E8;
+}
+html,body{
+height:100%;
+}
+img {
+    border: none;
+}
+td {
+    FONT-SIZE: 12px;color:#000000;TEXT-DECORATION: none;
+}
+table {
+width:100%;
+}
+/* 限制输入场的长度 */
+.stockinput{ width:50px;height:18px; }
+/* 限制按钮的长度 */
+.stockbotton{ width:30px;height:18px; }
+/* 限制手机只能输入数字 */
+.number{ -wap-input-format : "*N" }
+/* 手机输入无限制 */
+.mutiInput{ -wap-input-format : "*M" }
+
+/* 股票跌幅样式（绿色） */
+.stockdown {
+	font-size: 12px;
+	color: #00FF00;
+}
+/* 股票涨幅样式（红色） */
+.stockup {
+	font-size: 12px;
+	color: #FF0000;
+}
+/* 股票停样式（黑色） */
+.stockequal {
+	font-size: 12px;
+	color: #000000;
+}
+/* 首页临时公告带链接文字 */
+a.placard:link {
+    COLOR: #b80000; TEXT-DECORATION: underline; font-size:12px;
+}
+a.placard:visited {
+	COLOR: #b80000; TEXT-DECORATION: underline; font-size:12px;
+}
+a.placard:hover {
+	COLOR: #b80000; TEXT-DECORATION: underline; font-size:12px;
+}
+/* 带链接卡号 */
+a.numberlink:link {
+    COLOR: #000; TEXT-DECORATION: underline; font-size:12px;
+}
+a.numberlink:visited {
+	COLOR: #000; TEXT-DECORATION: underline; font-size:12px;
+}
+a.numberlink:hover {
+	COLOR: #000; TEXT-DECORATION: underline; font-size:12px;
+}
+/* 操作类字体确定上一步下一步等文字 */
+a.injunction:link {
+    COLOR: #1172BC; TEXT-DECORATION: underline; font-size:12px;
+}
+a.injunction:visited {
+	COLOR: #1172BC; TEXT-DECORATION: underline; font-size:12px;
+}
+a.injunction:hover {
+	COLOR: #1172BC; TEXT-DECORATION: underline; font-size:12px;
+}
+/* 其他链接文字 */
+a.elselink:link {
+    COLOR: #b80000; TEXT-DECORATION: underline; font-size:12px;
+}
+a.elselink:visited {
+	COLOR: #b80000; TEXT-DECORATION: underline; font-size:12px;
+}
+a.elselink:hover {
+	COLOR: #b80000; TEXT-DECORATION: underline; font-size:12px;
+}
+/* 标题 */
+.caption {
+	font-size: 13px;
+	color: #fff;
+	width:100%;
+	margin: 0px;
+	padding-left:3px;
+    background-image:url(../images/bj_top.gif);
+	background-repeat: repeat-x;
+	background-position:top left;
+	line-height:17px;
+	font-weight:bold;
+}
+/* 主菜单分割条 */
+.divide {
+	font-size: 12px;
+	color: #b80000;
+	'width:100%;
+	margin: 0px;
+	padding-left:3px;
+    background-image:url(../images/divide.gif);
+	background-repeat: repeat-x;
+	'background-position:top left;
+	line-height:22px;
+}
+/* 填写内容的分类标签 */
+.fill_in_label {
+	font-size: 12px;
+	font-weight:bold;
+}
+
+/* 回显的文字 */
+.validate {
+	font-size: 12px;
+	color: #000;
+}
+/* 注册时信息的反馈 */
+.login_info{
+    font-size: 12px;
+	color: #b80000;
+}
+/* 红色文字 */
+.redcolor{
+   	font-size:12px;
+   	color:#BC001F;
+  	font-family: Simsun,Arial,tahoma,sans-serif;
+  	text-decoration:none;
+}
+/* 蓝色文字 */
+.bluecolor{
+   	font-size:12px;
+   	color:#0000FF;
+  	font-family: Simsun,Arial,tahoma,sans-serif;
+  	text-decoration:underline;
+}
+/* 帮助图片定位样式 */
+.help{
+text-align:left;
+padding-left:10px;
+height:24px;
+}
+/* 波浪分隔符 */
+.listseparator {
+	font-size: 12px;
+	color: #000;
+}
+/* 顶部工行标志 */
+#top{
+    width:100%;
+	margin: 0px;
+	padding:0px;
+    background-image:url(../images/bj_top.gif);
+	background-repeat: repeat-x;
+	background-position:top left;
+	text-align:top left;
+	text-decoration:none;
+	color:#fff;
+}
+#top a {
+COLOR: #fff; TEXT-DECORATION: none; font-size:12px;
+}
+/* 主交易区背景图 */
+.bg{
+background-image:url(../images/bg.gif);
+background-repeat: no-repeat;
+background-position:bottom right;
+}
+
+/* 页面主交易区且文字居左 */
+.mainbody{
+margin: 0px;
+padding:0px;
+width:100%;
+text-align:left;
+height:50%;
+}
+.mainbody a {
+COLOR: #000; text-decoration:none; font-size:12px;
+}
+
+/* 页面主交易区且文字居中 */
+.mainbody_2{
+margin: 0px;
+padding:0px;
+width:100%;
+border:0px;
+text-align:center;
+height:50%;
+}
+.mainbody_2 a {
+COLOR: #000; text-decoration:none; font-size:12px;
+}
+/* 页面主交易区表格形式 */
+.mainbody3{
+margin: 0px;
+padding:0px;
+width:100%;
+text-align:left;
+height:50%;
+}
+.mainbody3 th {
+background-color:#EBADAF;
+}
+.mainbody3 tr {
+background-color:#FFF6F7;
+}
+.mainbody3 a {
+COLOR: #000; text-decoration:underline; font-size:12px;
+}
+
+/* 页面主交易区且文字居左 */
+.mainbody4{
+margin-top:4px;
+margin-bottom:4px;
+padding:0px;
+width:100%;
+text-align:left;
+height:50%;
+}
+.mainbody4 a {
+COLOR: #000; text-decoration:none; font-size:12px;
+}
+
+
+
+/* 结果文字无图文绕排 */
+.result {
+margin:0;
+text-align:left;
+padding-top:5px;
+font-size:12px;
+font-weight:bold;
+color:#b80000;
+}
+
+/* 帮助页面主交易区且文字居左 */
+.helpmainbody{
+margin: 0px;
+padding-top:5px;
+padding-bottom:5px;
+width:100%;
+text-align:left;
+height:50%;
+}
+.helpmainbody a {
+COLOR: #000; text-decoration:none; font-size:12px;
+}
+/* 行高是一 */
+.blackline {
+line-height:1px;
+background-color:#A8A8A8;
+}
+
+
+/* 二、三级菜单下横线 */
+.line {
+border-bottom:1px solid #C0B6B5;
+}
+
+/* 二级菜单鼠标滑过后颜色替换 */
+#colorswitchover{
+	padding:0; 
+	margin:0;
+	text-align:left;
+}
+#colorswitchover a:hover, #colorswitchover a:focus, #colorswitchover a:active { 
+	COLOR: #000; text-decoration:none; font-size:12px;
+	}
+/* 菜单前的图片 */	
+.icon_x{
+    margin: 0px;
+	padding:0px;
+	width:12px;
+    background-image:url(../images/x.gif);
+	background-repeat: no-repeat;
+	background-position:center left;
+	text-align:top left;
+}
+
+.icon_x2{
+    margin: 0px;
+	padding:0px;
+	width:12px;
+    background-image:url(../images/x2.gif);
+	background-repeat: no-repeat;
+	background-position:center left;
+	text-align:top left;
+}	
+		
+	
+	
+/* 二级菜单前的大图标 */
+.big_icon{
+    margin: 0px;
+	padding:0px;
+	width:11px;
+    background-image:url(../images/btn_right3.gif);
+	background-repeat: no-repeat;
+	background-position:center left;
+	text-align:top left;
+}
+/* 主菜单业务推荐的大图标 */
+.redarrow_icon{
+    margin: 0px;
+	padding:0px;
+	width:11px;
+    background-image:url(../images/redarrow.gif);
+	background-repeat: no-repeat;
+	background-position:center left;
+	text-align:top left;
+}
+
+/* 三级菜单鼠标滑过后颜色替换 */
+#colorswitchover2{
+	padding:0; 
+	margin:0;
+	text-align:left;
+}
+#colorswitchover2 a:hover, #colorswitchover a:focus, #colorswitchover a:active { 
+	COLOR: #000; text-decoration:none; font-size:12px;
+	}
+/* 三级菜单前的大图标 */
+.small_icon{
+    margin: 0px;
+	padding:0px;
+	width:10px;
+    background-image:url(../images/bullet_nextb2.gif);
+	background-repeat: no-repeat;
+	background-position:center left;
+	text-align:top left;
+}
+
+/* 第二级菜单 */
+#secondly_menu { 
+	float: left; 
+	width: 100%;
+	font-size:12px;
+	color:#000;
+	}
+#menu_d {
+	width:100%;
+	padding:0; 
+	margin:0; 
+	list-style:none;
+	}
+#menu_d li { 
+	background:none; 
+	padding:0; 
+	margin:0;
+	border-bottom:1px solid #C0B6B5;
+	line-height:12px; 
+	}
+#menu_d li a { 
+    background: url(../images/btn_right2.gif) no-repeat;
+	display: block; 
+	padding: 0.3em 1em 0.3em 1.5em;
+	color:#000;	
+	text-decoration:none;
+	}
+
+.menu_d li blank { 
+    background: url(../images/blank.gif) no-repeat;
+	display: block; 
+	padding: 0.3em 1em 0.3em 1.5em;
+	color:#000;	
+	text-decoration:none;
+	}
+#menu_d li a span { 
+	
+	padding: 3px 0px 10px 15px;
+	}
+#menu_d li a:hover, #news_d li a:focus, #news_d li a:active { 
+	background-color:#3A3A3A;
+	color: #fff;
+	}
+
+/* 第三级菜单 */
+#thirdly_menu { 
+	float: left; 
+	width: 100%;
+	font-size:12px;
+	color:#000;
+	}
+#menu {
+	width:100%;
+	padding:1px 0; 
+	margin:0; 
+	list-style:none; 
+	}
+#menu li { 
+	background:none; 
+	padding:0; 
+	margin:0; 
+	border-bottom:1px solid #C0B6B5;
+	line-height:12px; 
+	}
+#menu li a { 
+    background: url(../images/bullet_nextb.gif) 0 0 no-repeat; 
+	display: block; 
+	padding: 0.4em 1em 0.3em 1.5em;
+	color:#000;	
+	text-decoration:none;
+	}
+#menu li a span { 
+	
+	padding: 0 0 0 2em;
+	}
+#menu li a:hover, #news li a:focus, #news li a:active { 
+	background-color:#3A3A3A;
+	color: #fff; 
+	}
+
+
+
+
+
+/* 主标题文字 */
+.heading {
+width:100%;
+text-align:left;
+font-size: 12px;
+color: #B41408;
+font-weight:bold;
+padding-left:5px;
+background-image:url(../images/bj3.gif);
+background-repeat: no-repeat;
+background-position:top left;
+height:20px;
+}
+/* 主标题文字2 */
+.heading2 {
+width:100%;
+text-align:left;
+font-size: 12px;
+color: #B41408;
+font-weight:bold;
+padding-left:5px;
+background-image:url(../images/bj4.gif);
+background-repeat: no-repeat;
+background-position:top left;
+height:20px;
+}
+/* 页脚用表格制作时的样式 */
+.footer2{
+margin: 0px;
+padding:0px;
+width:100%;
+text-align:left;
+background-color:#646D74;
+margin-top:5px;
+line-height:16px;
+}
+.footer2 a {
+COLOR: #fff; text-decoration:none; font-size:12px;
+}
+.footer2 right {
+text-align:right;
+}
+
+/* 页脚表格 */
+.footertab{
+width:100%;
+background-color:#F9EBEC;
+border:1px solid #9B9A98;
+border-left:none;
+border-right:none;
+line-height:16px;
+}
+#footertab_left {
+COLOR: #000; TEXT-DECORATION: none; font-size:12px;
+text-align:left;
+padding-left:0px;
+}
+#footertab_left a {
+COLOR: #000; TEXT-DECORATION: none; font-size:12px;
+}
+#footertab_right {
+COLOR: #000; TEXT-DECORATION: none; font-size:12px;
+text-align:right;
+padding-right:0px;
+}
+#footertab_right a {
+COLOR: #000; TEXT-DECORATION: none; font-size:12px;
+}
+
+/* 页脚外面套的表格 */
+.coat{
+margin: 0px;
+padding:0px;
+width:100%;
+background-color:#F9EBEC;
+border:1px solid #CDCDCD;
+border-left:none;
+border-right:none;
+margin-top:5px;
+line-height:16px;
+}
+
+
+/* 粉色页脚 */
+#footer {
+	width:100%;
+	}
+#footer ul {
+	list-style-type:none;
+	margin:0px;
+	padding:0px;
+	text-align:center;
+	}
+#footer li {
+	display:inline;
+	/*border:solid 1px red;*/
+
+	}
+#footer a {
+	text-decoration:none;
+	color:#000;
+
+	}
+	
+#footer .f_nav {
+	line-height:18px;
+	}
+
+
+/* 标签 */
+#nav {
+float:left;
+width:100%;
+margin:0;
+padding:1px 0 0 3px;
+list-style:none;
+background:#F7E0E8 url(../images/nav_bg2.gif) repeat-x bottom left;/* 粉色背景色，靠左底部平铺底边图*/
+}
+/* 定义li */
+#nav li {
+float:left;/* 使用float属性把导航栏拽成水平，因为浮动的li把文档的顺序打乱了无法撑开外围ul的灰色背景 所以需要把ul同样设为浮动的*/
+margin:0;
+padding:0;
+font-family:Simsun,Arial,tahoma,sans-serif;
+font-size:100%;
+}
+/* 为选项卡定形 */
+#nav a{
+float:left;/* display设置为block块状，块状总是单独占一行，所以必须使用float使他们再处于同一行 */
+display:block;/* 设置为block块状以使整个选项卡都可以被点击 */
+margin:0 1px 0 0;/* 右侧用1个像素的空白隔开 这样每个选项卡都间隔1像素距离 */
+padding:2px 8px;/* 上下4像素的空白，左右8像素的空白 */
+color:#000;
+border:1px solid #C0B6B5;/* 1像素的灰色边框 */
+border-bottom:none;/* 底部边框没有 */
+background: #EFE8C6 url(../images/off_bg.gif) repeat-x top left;/* 未选中状态的图片做背景，靠左顶横向平铺 */
+}
+/* 悬停和选中状态背景图的变换 */
+#nav a:hover,body#history #t-history a,body#selacct #t-selacct a,body#accmanage #t-accmanage a{
+color:#b80000;
+padding-bottom:3px;/* 比#nav a的底边增加了1像素，这额外的1像素将迫使选中和悬停状态的选项卡覆盖住平铺的背景边框图 */
+background-color:#FAFAFA;/* 悬停和选中状态由原来的棕色边框变为#727377色 */
+background:#FAFAFA url(../images/on_bg.gif) repeat-x top left;
+}
+
+
+
+/* 目前页面中没用到的样式-图文绕排 */
+.sorry {
+width:50px;
+height:50px;
+background-image:url(../images/sorry.gif);
+background-repeat: no-repeat;
+background-position:top left;
+}
+/* 目前页面中没用到的样式-结果页面图文绕排 */
+#resultbody img {
+float:left;
+border:0;
+width:50px;
+margin:0;
+}
+#resultbody p {
+margin:0;
+padding-top:5px;
+font-size:12px;
+font-weight:bold;
+color:#b80000;
+}
+/* 平铺波浪分隔符图片使其满行显示 */
+.compart{
+width:100%;
+margin:0px;
+padding:0px;
+background-image:url(../images/fengefu.gif);
+background-repeat: repeat-x;
+background-position: center;
+}
