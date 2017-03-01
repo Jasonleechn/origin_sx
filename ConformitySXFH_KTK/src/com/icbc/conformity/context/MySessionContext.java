@@ -7,7 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import com.icbc.sxfh.util.Logger_ETC;
+import com.icbc.sxfh.util.Log_etc_singleton;
 
 /**
  * <p> Session 管理类
@@ -23,7 +23,7 @@ public class MySessionContext {
 	public static ModeType Mode = ModeType.Test;
 	
 	//初始化日志工具
-	public static Logger_ETC logger = new Logger_ETC();
+	private static Log_etc_singleton logger = Log_etc_singleton.getInstance();
 	
 	//客户端版本模式，测试用 6：iPhone、7：Andriod、8：WindowsPhone
 	public static String bankType = "7";
