@@ -9,11 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.icbc.sxfh.common.CommonMethods;
+import com.icbc.sxfh.util.Log_etc_singleton;
 
 
 /**
@@ -21,7 +21,7 @@ import com.icbc.sxfh.common.CommonMethods;
  */
 public class DataHandlerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private final static Logger log = Logger.getLogger(DataHandlerServlet.class);
+	private final static Log_etc_singleton logger = Log_etc_singleton.getInstance();
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -56,8 +56,8 @@ public class DataHandlerServlet extends HttpServlet {
 			String param = request.getParameter("param");  
 			//param = URLDecoder.decode(param,"UTF-8");
 			//System.out.println("待处理数据--------------------"+param); 
-			log.info(tag+"待处理数据："+param);
-			byte byOrg[] = CommonMethods.hexStringToBytes(param);
+			logger.log(tag+"待处理数据：" + param);
+			byte[] byOrg = CommonMethods.hexStringToBytes(param);
 			JSONObject json = new JSONObject(); 
 			pw = response.getWriter(); 
 			if(byOrg == null || byOrg.length != 57){
@@ -67,12 +67,11 @@ public class DataHandlerServlet extends HttpServlet {
 					json.put("retCode", retCode);
 					json.put("retMsg", retMsg);
 				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					logger.log(this.getClass().getName()+"-getSTKName时异常：",e);
 				}	        
 		    	pw.print(json.toString());    
-		    	//System.out.println("获取苏通卡姓名返回json object :"+json.toString());  
-		    	log.info(tag+"返回:"+json.toString());
+		    	//System.out.println("获取快通卡姓名返回json object :"+json.toString());  
+		    	logger.log(tag+"返回:"+json.toString());
 		    	pw.close(); 
 		    } else {
 		    	retCode = "0";
@@ -89,8 +88,8 @@ public class DataHandlerServlet extends HttpServlet {
 					e.printStackTrace();
 				}	
 		    	pw.print(json.toString());    
-		    	//System.out.println("获取苏通卡姓名返回json object :"+json.toString());  
-		    	log.info(tag+"返回:"+json.toString());
+		    	//System.out.println("获取快通卡姓名返回json object :"+json.toString());  
+		    	logger.log(tag+"返回:"+json.toString());
 		    	pw.close(); 
 		    }	
 		}
@@ -98,7 +97,7 @@ public class DataHandlerServlet extends HttpServlet {
 		if(type.equals("getXYKInfo")){
 			response.setContentType("text/html;charset=utf-8"); 
 			String param = request.getParameter("param");  
-			log.info(tag+"待处理数据："+param);
+			logger.log(tag+"待处理数据："+param);
 			byte byOrg[] = CommonMethods.hexStringToBytes(param);
 			JSONObject json = new JSONObject(); 
 			pw = response.getWriter(); 
@@ -113,7 +112,7 @@ public class DataHandlerServlet extends HttpServlet {
 					e.printStackTrace();
 				}	        
 		    	pw.print(json.toString());    
-		    	log.info(tag+"返回:"+json.toString());
+		    	logger.log(tag+"返回:"+json.toString());
 		    	pw.close(); 
 		    } else {
 		    	retCode = "0";
@@ -138,7 +137,7 @@ public class DataHandlerServlet extends HttpServlet {
 					e.printStackTrace();
 				}	
 		    	pw.print(json.toString());    
-		    	log.info(tag+"返回:"+json.toString());
+		    	logger.log(tag+"返回:"+json.toString());
 		    	pw.close(); 
 		    }	
 		}
@@ -148,7 +147,7 @@ public class DataHandlerServlet extends HttpServlet {
 			String param = request.getParameter("param");  
 			param = URLDecoder.decode(param,"UTF-8");
 			//System.out.println("待处理数据--------------------"+param); 
-			log.info(tag+"异常数据日志:"+param);
+			logger.log(tag+"异常数据日志:"+param);
 			JSONObject json = new JSONObject(); 
 			pw = response.getWriter(); 
 
@@ -162,7 +161,7 @@ public class DataHandlerServlet extends HttpServlet {
 				e.printStackTrace();
 			}	        
 		    pw.print(json.toString());    
-		    //System.out.println("获取苏通卡姓名返回json object :"+json.toString());  
+		    //System.out.println("获取快通卡姓名返回json object :"+json.toString());  
 		    //log.info("上传异常日志信息返回json object :"+json.toString());
 		    pw.close(); 	   
 		}
@@ -172,7 +171,7 @@ public class DataHandlerServlet extends HttpServlet {
 			
 			JSONObject json = new JSONObject(); 
 			pw = response.getWriter(); 
-			String retInfo = STCardService.getLimit();
+			String retInfo = KTCardService.getLimit();
 			if(retInfo == null || retInfo == ""){
 				retCode = "-1";
 				retMsg = "获取单笔充值限额失败！";
@@ -196,8 +195,8 @@ public class DataHandlerServlet extends HttpServlet {
 				}
 			}		   
 		    pw.print(json.toString());    
-		    //System.out.println("获取苏通卡姓名返回json object :"+json.toString());  
-		    log.info(tag+"返回:"+json.toString());
+		    //System.out.println("获取快通卡姓名返回json object :"+json.toString());  
+		    logger.log(tag+"返回:"+json.toString());
 		    pw.close(); 
 		}
 		

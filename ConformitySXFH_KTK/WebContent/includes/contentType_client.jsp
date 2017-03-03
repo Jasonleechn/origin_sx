@@ -34,8 +34,8 @@ if(MySessionContext.Mode==MySessionContext.ModeType.Normal){
 	}
 }else{
 	response.setContentType("text/html; charset=utf-8");
-	contextPath = "/ConformityJSFH_STK/ForTest"; 
-	zhHead = "/ConformityJSFH_STK/ForTest/jsp/"; 
+	contextPath = "/ConformitySXFH_KTK/ForTest"; 
+	zhHead = "/ConformitySXFH_KTK/ForTest/jsp/"; 
  	dynaPwdImg = "http://127.0.0.1:8080/ICBCWAPBank/servlet/ReCreateImgServlet?param="; 
  	verifyCodeImg = "http://127.0.0.1:8080/ICBCWAPBank/servlet/VerifyImageServlet?param="; 
  	sessionId="";

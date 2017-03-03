@@ -3,12 +3,11 @@ package com.icbc.sxfh.ktcard;
 import java.io.FileInputStream;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
-
 import com.icbc.sxfh.common.CommonTrade;
+import com.icbc.sxfh.util.Log_etc_singleton;
 
 
-public class STCardService {
+public class KTCardService {
 	private String receiveData = ""; // 接收交易数据
 	private String sendData = ""; // 上送交易数据
 	private String strAreaCode = ""; // 地区号
@@ -24,7 +23,7 @@ public class STCardService {
 	private static String serverAddr = null; // 服务器地址
 	private static String serverPort = null; // 服务器端口
 	private static String singleLimit = null;
-	private final static Logger log = Logger.getLogger(STCardService.class);
+	private final static Log_etc_singleton logger = Log_etc_singleton.getInstance();
 		
 	static {
 		try {
@@ -40,11 +39,11 @@ public class STCardService {
 		}
 	}
 
-	public STCardService() {
+	public KTCardService() {
 		System.out.println("==========STCardService no params Construct========");
 	}
 
-	public STCardService(String inputarea, String publiccode, String transtime, String tag) {
+	public KTCardService(String inputarea, String publiccode, String transtime, String tag) {
 		System.out.println("==========STCardService Construct========");
 		sendData = inputarea;
 		strPublicCode = publiccode;
@@ -58,7 +57,7 @@ public class STCardService {
 			Properties properties1 = new Properties();
 			FileInputStream FStream1= new FileInputStream("d:/fbec/web/ipconfig.cfg");
 			properties1.load(FStream1);
-			res = properties1.getProperty("stk_singleLimit");//单笔限额
+			res = properties1.getProperty("ktk_singleLimit");//单笔限额
 		} catch (Exception e) {
 			// TODO 自动生成 catch 块
 			e.printStackTrace();
@@ -71,25 +70,25 @@ public class STCardService {
 		//serverAddr = CommonTrade.getServerAddr();
 		//serverPort = CommonTrade.getServerPort();
 
-		log.info(tag+"---------------交易开始------------------------------");
-		log.info(tag+"server address : " + serverAddr);
-		log.info(tag+"server port    : " + serverPort);
+		logger.log(tag+"---------------交易开始------------------------------");
+		logger.log(tag+"server address : " + serverAddr);
+		logger.log(tag+"server port    : " + serverPort);
 		try {
 			byte byteSend[] = null;
 			String strRecive;
 			String strSend = makePkg(); // 创建发送报文
 			byteSend = strSend.getBytes(); 
-			log.info(tag+"发送报文:" + strSend);
+			logger.log(tag+"发送报文:" + strSend);
 			String strCode = CommonTrade.getField(strPublicCode, 0); // 取交易码
 			CommonTrade commonTrade = new CommonTrade(strCode, byteSend);
 			
 			strRecive = commonTrade.TcpCommProxy(serverAddr,serverPort); // 通过Socket发送，并接收返回报文
 			
-			//strRecive="00206984353|05|04301|05588|00010|99999999|999999999999999|99999999999999999999|20110328|090000|99999999999999999999|00000|苏通卡明细查询成功!|6222390016150033|32011112220100000003|宋明州             |22|202103|24|9||2011-03-21|6222390016150033|32011112220100000003|84349|0|1000                |0          |06           |00010||2011-03-24|6222390016150033|32011112220100000003|84349|0|1                   |501001              |0                  |02046||2011-03-23|6222390016150033|32011112220100000003|84349|0|1000   |0                   |02                         |00010||2011-03-27|6222390016150033|32011112220100000003|84349|0|1000          |1000                |0                                |02046||2011-03-27|6222390016150033|32011112220100000003|84349|0|500000              |501000              |0                                       |02046||2011-03-21|6222390016150033|32011112220100000003|84349|0|10000               |11000               |0                                              |05659||2011-03-27|6222390016150033|32011112220100000003|84349|0|9999999             |9999999             |0                                                     |05659||2011-03-29|6222390016150033|32011112220100000003|84349|0|100                 |557639              |0                                                            |01304||2011-03-29|6222390016150033|32011112220100000003|84349|0|1                   |557640              |0                                                                   |01304||2011-03-29|6222390016150033|32011112220100000003|84349|0|1                   |557640              |0                                                                   |01304|";
+			//strRecive="00206984353|05|04301|05588|00010|99999999|999999999999999|99999999999999999999|20110328|090000|99999999999999999999|00000|快通卡明细查询成功!|6222390016150033|32011112220100000003|宋明州             |22|202103|24|9||2011-03-21|6222390016150033|32011112220100000003|84349|0|1000                |0          |06           |00010||2011-03-24|6222390016150033|32011112220100000003|84349|0|1                   |501001              |0                  |02046||2011-03-23|6222390016150033|32011112220100000003|84349|0|1000   |0                   |02                         |00010||2011-03-27|6222390016150033|32011112220100000003|84349|0|1000          |1000                |0                                |02046||2011-03-27|6222390016150033|32011112220100000003|84349|0|500000              |501000              |0                                       |02046||2011-03-21|6222390016150033|32011112220100000003|84349|0|10000               |11000               |0                                              |05659||2011-03-27|6222390016150033|32011112220100000003|84349|0|9999999             |9999999             |0                                                     |05659||2011-03-29|6222390016150033|32011112220100000003|84349|0|100                 |557639              |0                                                            |01304||2011-03-29|6222390016150033|32011112220100000003|84349|0|1                   |557640              |0                                                                   |01304||2011-03-29|6222390016150033|32011112220100000003|84349|0|1                   |557640              |0                                                                   |01304|";
 			//strRecive="00010284353|05|04301|00000|00000||               ||20110329|154012||00000||1111111111111111111|22222222222222222222|测试|22|201103|48|2011-03-28|2011-03-28|1111111111111111111|22222222222222222222|84353|0|100.00|200.00|05|11111|2011-03-28|2011-03-28|1111111111111111111|22222222222222222222|84353|0|100.00|200.00|05|11111|2011-03-28|2011-03-28|1111111111111111111|22222222222222222222|84353|0|100.00|200.00|05|11111|2011-03-28|2011-03-28|1111111111111111111|22222222222222222222|84353|0|100.00|200.00|05|11111|2011-03-28|2011-03-28|1111111111111111111|22222222222222222222|84353|0|100.00|200.00|05|11111|2011-03-28|2011-03-28|1111111111111111111|22222222222222222222|84353|0|100.00|200.00|05|11111|2011-03-28|2011-03-28|1111111111111111111|22222222222222222222|84353|0|100.00|200.00|05|11111|2011-03-28|2011-03-28|1111111111111111111|22222222222222222222|84353|0|100.00|200.00|05|11111|2011-03-28|2011-03-28|1111111111111111111|22222222222222222222|84353|0|100.00|200.00|05|11111|2011-03-28|2011-03-28|1111111111111111111|22222222222222222222|84353|0|100.00|200.00|05|11111|2011-03-28|2011-03-28|1111111111111111111|22222222222222222222|84353|0|100.00|200.00|05|11111|";
-			log.info(tag+"接收报文: " + strRecive);
+			logger.log(tag+"接收报文: " + strRecive);
 			RetPack(strRecive); // 解析接收到的报文
-			log.info(tag+"---------------交易结束------------------------------");
+			logger.log(tag+"---------------交易结束------------------------------");
 			if(strTransOk){
 				return true;
 			}else{
@@ -97,7 +96,7 @@ public class STCardService {
 			}
 		} catch (Exception exception) {
 			exception.printStackTrace();
-			log.info(tag+"交易异常: " + exception);
+			logger.log(tag+"交易异常: " + exception);
 			return false;
 		}		
 	}
@@ -172,7 +171,7 @@ public class STCardService {
 		strPack = strPack + s2.substring(0, 8) + "|"; // 工作日期
 		strPack = strPack + s2.substring(8, 14) + "|"; // 工作时间
 		strPack = strPack + "" + "|"; // 备用1
-		log.info(tag+"公共报文头: " + strPack);
+		logger.log(tag+"公共报文头: " + strPack);
 		//System.out.println("公共报文头: " + strPack);
 		return strPack;
 	}
@@ -187,10 +186,10 @@ public class STCardService {
 
 		String str45 =sendData;
 		
-		 // 苏通卡充值
+		 // 快通卡充值
 		if (strTranCode.equals("84358")) {                         
 			strTmp = CommonTrade.getField(str45, 0) + "|";          // 借方账号
-			strTmp = strTmp + CommonTrade.getField(str45, 1) + "|"; // 苏通卡卡号
+			strTmp = strTmp + CommonTrade.getField(str45, 1) + "|"; // 快通卡卡号
 			strTmp = strTmp + CommonTrade.getField(str45, 2) + "|"; // 充值金额
 			strTmp = strTmp + CommonTrade.getField(str45, 3) + "|"; // 充值金额HEX
 			strTmp = strTmp + CommonTrade.getField(str45, 4) + "|"; // 卡面余额
@@ -203,7 +202,7 @@ public class STCardService {
 		
 		// 写卡成功后更新平台状态
 		if(strTranCode.equals("82148")){
-			strTmp = CommonTrade.getField(str45, 0) + "|";          // 苏通卡卡号
+			strTmp = CommonTrade.getField(str45, 0) + "|";          // 快通卡卡号
 			strTmp = strTmp + CommonTrade.getField(str45, 1) + "|"; // 流水号
 			strTmp = strTmp + CommonTrade.getField(str45, 2) + "|"; // MAC
 		}
@@ -211,7 +210,7 @@ public class STCardService {
 		// 充值失败后，银行主机冲正并告诉第三方失败
 		if(strTranCode.equals("84420")){
 			strTmp = CommonTrade.getField(str45, 0) + "|";          // 借方账号
-			strTmp = strTmp + CommonTrade.getField(str45, 1) + "|"; // 苏通卡卡号
+			strTmp = strTmp + CommonTrade.getField(str45, 1) + "|"; // 快通卡卡号
 			strTmp = strTmp + CommonTrade.getField(str45, 2) + "|"; // 充值金额
 			strTmp = strTmp + CommonTrade.getField(str45, 3) + "|"; // 原交易流水号
 		}
@@ -229,7 +228,7 @@ public class STCardService {
 		strTmp = CommonTrade.addSpace0(strLen, 6) + packageHead + strTmp;
 		//strTmp = packageHead + strTmp;
 
-		log.info(tag+"上送交易报文: " + strTmp);
+		logger.log(tag+"上送交易报文: " + strTmp);
 		return strTmp;
 	}
 
@@ -244,40 +243,40 @@ public class STCardService {
 		}
 		
 		String LenAndCode = CommonTrade.getField(strPack, 0);//报文长度+交易代码
-		log.info(tag+"报文长度+交易代码: " + LenAndCode);
+		logger.log(tag+"报文长度+交易代码: " + LenAndCode);
 		strTranCode = LenAndCode.substring(6, LenAndCode.length());//交易码
 		//log.info("返回数据中的交易码："+strTranCode);
 		strPack = CommonTrade.getFieldLast(strPack, 11);//去除报文头后的数据
 		//System.out.println("去除报文头后的数据："+strPack);
-		log.info(tag+"去除报文头后的数据："+strPack);
+		logger.log(tag+"去除报文头后的数据："+strPack);
 			
 		strRespCode = CommonTrade.getField(strPack, 0);//返回码
-		log.info(tag+"响应码strRespCode: " + strRespCode);
+		logger.log(tag+"响应码strRespCode: " + strRespCode);
 		
 		if (strRespCode.equals("00000") || strRespCode.equals("0000") || Integer.parseInt(strRespCode) == 0) {
 			strTransOk = true;
 		} else{
 			strTransOk = false;
 		}
-		log.info(tag+"交易成功标志: " + strTransOk);
+		logger.log(tag+"交易成功标志: " + strTransOk);
 		if (strTransOk) {
 			if (strTranCode.equals("84358")) {
 				strRespInfo = CommonTrade.getField(strPack, 1);
 				receiveData = CommonTrade.getFieldLast(strPack, 2);
-				log.info(tag+"响应信息strRespInfo:" + strRespInfo);
-				log.info(tag+"返回交易数据receiveData:" + receiveData);
+				logger.log(tag+"响应信息strRespInfo:" + strRespInfo);
+				logger.log(tag+"返回交易数据receiveData:" + receiveData);
 			}
 			if (strTranCode.equals("82148")) {
 				strRespInfo = CommonTrade.getField(strPack, 1);				
-				log.info(tag+"响应信息strRespInfo:" + strRespInfo);
+				logger.log(tag+"响应信息strRespInfo:" + strRespInfo);
 			}
 			if (strTranCode.equals("84420")) {
 				strRespInfo = CommonTrade.getField(strPack, 1);				
-				log.info(tag+"响应信息strRespInfo:" + strRespInfo);
+				logger.log(tag+"响应信息strRespInfo:" + strRespInfo);
 			}
 		}else {
 			strRespInfo = CommonTrade.getField(strPack, 1);
-			log.info(tag+"响应信息strRespInfo:" + strRespInfo);
+			logger.log(tag+"响应信息strRespInfo:" + strRespInfo);
 		}		
 	}
 	

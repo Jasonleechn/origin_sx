@@ -80,15 +80,15 @@ function execute(){
 function checkData(){
 
 	if(name == null || name == ""){
-		alert("获取苏通卡姓名失败！");
+		alert("获取快通卡姓名失败！");
 		return false;
 	}
 	if(cardNo == null || cardNo == ""){
-		alert("获取苏通卡卡号失败！");
+		alert("获取快通卡卡号失败！");
 		return false;
 	}
 	if(balance == null || balance == ""){
-		alert("获取苏通卡余额失败！");
+		alert("获取快通卡余额失败！");
 		return false;
 	}
 	
@@ -194,13 +194,13 @@ function executeTransmit(param){
 }
 
 function sendErrMsg(str1, str2){
-	var msg = "苏通卡充值异常--"+getDateTime()+"--"+str1+"--"+str2;
+	var msg = "快通卡充值异常--"+getDateTime()+"--"+str1+"--"+str2;
 	msg = encodeURI(msg);
 	var tag = custArea+"地区,"+custName+"用户";
 	tag = encodeURI(tag);
 	$.ajaxSetup({
 		async:false});
-	$.post("<%=urlHead%>/STCard/DataHandler",
+	$.post("<%=urlHead%>/KTCard/DataHandler",
 			{"type":"sendErrMsg","param":msg,"tag":tag},
 			function(data, textStatus){
 				if(data.retCode == "0") {			
@@ -223,7 +223,7 @@ function connMaps(transCode){
 		transtime = getDateTime();
 		//name = decodeURI(name);
 		var str = debitCardno+"|"+cardNo+"|"+chargeAmt+"|"+chargeAmtHex+"|"+balance+"|"+serNo+"|"+getNetNo()+"|"+random+"|"+name+"|"+mac+"|";
-		$.post("<%=urlHead%>/STCard/ConnectMaps",
+		$.post("<%=urlHead%>/KTCard/ConnectMaps",
 				{"transCode":transCode,"param":str,"transTime":transtime,"tag":tag},
 				function(data, textStatus){
 					ICBCSpecialCardTools.nativeHideIndicator();
@@ -240,7 +240,7 @@ function connMaps(transCode){
 	if(transCode == "82148"){
 		transtime = getDateTime();
 		var str1 = cardNo+"|"+serialNo+"|"+mac+"|";
-		$.post("<%=urlHead%>/STCard/ConnectMaps",
+		$.post("<%=urlHead%>/KTCard/ConnectMaps",
 				{"transCode":transCode,"param":str1,"transTime":transtime,"areaNo":custArea,"tag":tag},
 				function(data, textStatus){
 					ICBCSpecialCardTools.nativeHideIndicator();
@@ -256,7 +256,7 @@ function connMaps(transCode){
 	if(transCode == "84420"){
 		transtime = getDateTime();
 		var str2 = debitCardno+"|"+cardNo+"|"+chargeAmt+"|"+serialNo+"|";
-		$.post("<%=urlHead%>/STCard/ConnectMaps",
+		$.post("<%=urlHead%>/KTCard/ConnectMaps",
 				{"transCode":transCode,"param":str2,"transTime":transtime,"areaNo":custArea,"tag":tag},
 				function(data, textStatus){
 					ICBCSpecialCardTools.nativeHideIndicator();
@@ -287,10 +287,10 @@ function stepCallBack(callBackResult){
 					executeTransmit({'msgFlag':'1','msgBuf':'00a40000021001','step':2});
 				}else if(callBackResult.step==2){					
 					if(resultString==null || resultString=="" || resultString.substr(resultString.length-4) != "9000"){
-						//alert("选择苏通卡应用失败，请确认卡片是否为苏通卡！");					
+						//alert("选择快通卡应用失败，请确认卡片是否为快通卡！");					
 						jQuery('#failure').show();
 						jQuery('#errorCode').html("-101");
-						jQuery('#errorMsg').html("选择苏通卡应用失败，请确认卡片是否为苏通卡！");
+						jQuery('#errorMsg').html("选择快通卡应用失败，请确认卡片是否为快通卡！");
 						sendErrMsg("选择应用失败，指令：00a40000021001", resultString);
 						ICBCSpecialCardTools.endConformityTransmit();
                 	}else{
@@ -302,7 +302,7 @@ function stepCallBack(callBackResult){
 		         	{	            
 		             	jQuery('#failure').show();
 		             	jQuery('#errorCode').html("-102");
-						jQuery('#errorMsg').html("PIN校验失败，苏通卡充值失败！");
+						jQuery('#errorMsg').html("PIN校验失败，快通卡充值失败！");
 						sendErrMsg("PIN校验失败，指令：0020000003888888", resultString);
 		             	ICBCSpecialCardTools.endConformityTransmit();
 		        	}else {
@@ -315,10 +315,10 @@ function stepCallBack(callBackResult){
 				}else if(callBackResult.step==4){
 					if(resultString==null || resultString==""|| resultString.substr(resultString.length-4) != "9000")
 		         	{		             	
-		             	//alert("执行圈存预处理异常，苏通卡充值失败！");	            	
+		             	//alert("执行圈存预处理异常，快通卡充值失败！");	            	
 		             	jQuery('#failure').show();
 		             	jQuery('#errorCode').html("-103");
-						jQuery('#errorMsg').html("执行圈存预处理异常，苏通卡充值失败！");
+						jQuery('#errorMsg').html("执行圈存预处理异常，快通卡充值失败！");
 						sendErrMsg("执行圈存预处理失败，指令："+errCmd, resultString);
 		             	ICBCSpecialCardTools.endConformityTransmit();
 		        	}else {
@@ -337,7 +337,7 @@ function stepCallBack(callBackResult){
 				        		//alert(errMsg);
 			        			jQuery('#failure').show();
 			        			jQuery('#errorCode').html("-104");
-								jQuery('#errorMsg').html(errMsg+",苏通卡充值失败！");
+								jQuery('#errorMsg').html(errMsg+",快通卡充值失败！");
 								//sendErrMsg("中间业务平台交易异常，交易代码84358", errMsg);
 				             	ICBCSpecialCardTools.endConformityTransmit();
 			        		}else{
@@ -370,10 +370,10 @@ function stepCallBack(callBackResult){
 					//jQuery('#stepDetail').append("<div><p style='color:red'>step"+callBackResult.step+":<p>"+resultString+"</div>");
 					if(resultString==null || resultString=="" || resultString.substr(resultString.length-4) != "9000")
 		         	{
-		             	//alert("执行圈存预处理异常，苏通卡充值失败！");
+		             	//alert("执行圈存预处理异常，快通卡充值失败！");
 		             	jQuery('#failure').show();
 		             	jQuery('#errorCode').html("-105");
-						jQuery('#errorMsg').html("执行圈存预处理异常，苏通卡充值失败！");
+						jQuery('#errorMsg').html("执行圈存预处理异常，快通卡充值失败！");
 						sendErrMsg("读取圈存预处理后续数据失败，指令："+errCmd, resultString);
 		             	ICBCSpecialCardTools.endConformityTransmit();
 		        	}else {
@@ -385,7 +385,7 @@ function stepCallBack(callBackResult){
 		        			//alert(errMsg);
 		        			jQuery('#failure').show();
 		        			jQuery('#errorCode').html("-104");
-							jQuery('#errorMsg').html(errMsg+",苏通卡充值失败！");
+							jQuery('#errorMsg').html(errMsg+",快通卡充值失败！");
 							//sendErrMsg("中间业务平台交易异常，交易代码84358", errMsg);
 			             	ICBCSpecialCardTools.endConformityTransmit();
 		        		}else{
@@ -417,17 +417,17 @@ function stepCallBack(callBackResult){
 					//jQuery('#stepDetail').append("<div><p style='color:red'>step"+callBackResult.step+":<p>"+resultString+"</div>");        		
 					if(resultString==null || resultString=="" || resultString.substr(resultString.length-4) != "9000")
 		         	{
-		             	//alert("苏通卡充值写卡失败,将自动冲正！");		          
+		             	//alert("快通卡充值写卡失败,将自动冲正！");		          
 		             	jQuery('#failure').show();
 		             	jQuery('#errorCode').html("-106");
 		             	var ret2 = connMaps("84420");
 		             	if(ret2 == 0){
-							jQuery('#errorMsg').html("苏通卡充值写卡失败,自动冲正成功！");
-							//sendErrMsg("苏通卡充值写卡失败，自动冲正成功，指令："+errCmd, resultString);
+							jQuery('#errorMsg').html("快通卡充值写卡失败,自动冲正成功！");
+							//sendErrMsg("快通卡充值写卡失败，自动冲正成功，指令："+errCmd, resultString);
 		             	}
 		             	else{
-		             		jQuery('#errorMsg').html("苏通卡充值写卡失败，自动冲正失败！");
-		             		//sendErrMsg("苏通卡充值写卡失败，自动冲正失败，指令："+errCmd, resultString);
+		             		jQuery('#errorMsg').html("快通卡充值写卡失败，自动冲正失败！");
+		             		//sendErrMsg("快通卡充值写卡失败，自动冲正失败，指令："+errCmd, resultString);
 		             	}
 						
 		             	ICBCSpecialCardTools.endConformityTransmit();
@@ -446,17 +446,17 @@ function stepCallBack(callBackResult){
 					//jQuery('#stepDetail').append("<div><p style='color:red'>step"+callBackResult.step+":<p>"+resultString+"</div>");
 					if(resultString==null || resultString=="" || resultString.substr(resultString.length-4) != "9000")
 		         	{	             	
-		             	//alert("苏通卡充值写卡失败,将自动冲正！");		          
+		             	//alert("快通卡充值写卡失败,将自动冲正！");		          
 		             	jQuery('#failure').show();		  
 		             	jQuery('#errorCode').html("-106");
 		             	var ret3 = connMaps("84420");
 		             	if(ret3 == 0){
-							jQuery('#errorMsg').html("苏通卡充值写卡失败,自动冲正成功！");
-							//sendErrMsg("苏通卡充值写卡失败，自动冲正成功，指令："+errCmd, resultString);
+							jQuery('#errorMsg').html("快通卡充值写卡失败,自动冲正成功！");
+							//sendErrMsg("快通卡充值写卡失败，自动冲正成功，指令："+errCmd, resultString);
 		             	}
 		             	else{
-		             		jQuery('#errorMsg').html("苏通卡充值写卡失败，自动冲正失败！");
-		             		//sendErrMsg("苏通卡充值写卡失败，自动冲正失败，指令："+errCmd, resultString);
+		             		jQuery('#errorMsg').html("快通卡充值写卡失败，自动冲正失败！");
+		             		//sendErrMsg("快通卡充值写卡失败，自动冲正失败，指令："+errCmd, resultString);
 		             	}
 						
 		             	ICBCSpecialCardTools.endConformityTransmit();
@@ -472,7 +472,7 @@ function stepCallBack(callBackResult){
 		             	jQuery('#failure').show();
 						jQuery('#errorCode').html("-107");
 						jQuery('#errorMsg').html("您已充值写卡成功，但充值后重新读取余额文件异常，请重新查询余额确认充值结果是否正确！");
-						//jQuery("#prev_url").val("/STCard/readCardInfo.jsp");	//20131203 增加返回上页功能
+						//jQuery("#prev_url").val("/KTCard/readCardInfo.jsp");	//20131203 增加返回上页功能
 						sendErrMsg("充值后重新读取余额文件失败，指令：805C000204", resultString);
 		             	ICBCSpecialCardTools.endConformityTransmit();
 		        	}else {	        
@@ -493,7 +493,7 @@ function stepCallBack(callBackResult){
 				             	jQuery('#failure').show();
 				             	jQuery('#errorCode').html("-109");
 								jQuery('#errorMsg').html("充值后余额不一致，请重新查询余额确认充值结果是否正确！");
-								//jQuery("#prev_url").val("/STCard/readCardInfo.jsp");	//20131203 增加返回上页功能
+								//jQuery("#prev_url").val("/KTCard/readCardInfo.jsp");	//20131203 增加返回上页功能
 								sendErrMsg("充值前后查询余额不一致", "充值前余额:"+parseInt(balance)+",充值金额："+parseInt(chargeAmt)+",充值后余额："+parseInt(byInfo));
 				             	ICBCSpecialCardTools.endConformityTransmit();
 				            }				            
@@ -507,7 +507,7 @@ function stepCallBack(callBackResult){
 		            	jQuery('#failure').show();
 		            	jQuery('#errorCode').html("-108");
 						jQuery('#errorMsg').html("您已充值写卡成功，但充值后读取余额文件后续数据异常，请重新查询余额确认充值结果是否正确！");
-						//jQuery("#prev_url").val("/STCard/readCardInfo.jsp");	//20131203 增加返回上页功能
+						//jQuery("#prev_url").val("/KTCard/readCardInfo.jsp");	//20131203 增加返回上页功能
 						sendErrMsg("充值后读取余额文件后续数据失败，指令："+errCmd, resultString);
 		            	ICBCSpecialCardTools.endConformityTransmit();	
 		            }else{
@@ -521,7 +521,7 @@ function stepCallBack(callBackResult){
 			             	jQuery('#failure').show();
 			             	jQuery('#errorCode').html("-109");
 							jQuery('#errorMsg').html("充值后余额不一致，请重新查询余额确认充值结果是否正确！");
-							//jQuery("#prev_url").val("/STCard/readCardInfo.jsp");	//20131203 增加返回上页功能
+							//jQuery("#prev_url").val("/KTCard/readCardInfo.jsp");	//20131203 增加返回上页功能
 							sendErrMsg("充值前后查询余额不一致", "充值前余额:"+parseInt(balance)+",充值金额："+parseInt(chargeAmt)+",充值后余额："+parseInt(byInfo));
 			             	ICBCSpecialCardTools.endConformityTransmit();
 			            }
@@ -531,8 +531,8 @@ function stepCallBack(callBackResult){
 					connMaps("82148");   //写卡成功后更新平台状态
 					jQuery('#success').show();
 					jQuery('#failure').hide();
-					//alert("苏通卡充值成功！");
-					//jQuery("#prev_url").val("/STCard/stcmain.jsp");	//20131203 增加返回上页功能				
+					//alert("快通卡充值成功！");
+					//jQuery("#prev_url").val("/KTCard/stcmain.jsp");	//20131203 增加返回上页功能				
 					jQuery('#chargeAmtLabel').html(chargeAmt/100+"元");
 					jQuery('#amountACLabel').html(amountACInt/100+"元");
 					//结束服务
@@ -555,7 +555,7 @@ function stepCallBack(callBackResult){
 <body>
 	<header>
 		<nav>
-			<h1 class="nav_title" id="nav_title">苏通卡充值结果</h1>
+			<h1 class="nav_title" id="nav_title">快通卡充值结果</h1>
 		</nav>
 	</header>
 	<div id="content" class="content">
@@ -612,7 +612,7 @@ function stepCallBack(callBackResult){
 				<input type="hidden" name="dse_sessionId" value="<%=sessionId%>" />
 				<input type="hidden" name="c_sessionId" value="<%=c_sessionId%>" />
 				<input type="hidden" name="ic2f_DynaPwdReqFmt" value="{$ic2f_DynaPwdReqFmt$}" />
-				<input type="hidden" name="url" value="/STCard/dynapassword.jsp" />
+				<input type="hidden" name="url" value="/KTCard/dynapassword.jsp" />
 				<input type="hidden" id="stk_name" name="stk_name" value="<%=request.getParameter("stk_name")%>" />
 				<input type="hidden" id="stk_cardNo" name="stk_cardNo" value="<%=request.getParameter("stk_cardNo")%>" />
 				<input type="hidden" id="stk_balance" name="stk_balance" value="<%=request.getParameter("stk_balance")%>" />
@@ -626,7 +626,7 @@ function stepCallBack(callBackResult){
 				<input type="hidden" name="dse_sessionId" value="<%=sessionId%>" />
 				<input type="hidden" name="c_sessionId" value="<%=c_sessionId%>" />
 				<input type="hidden" id="token" name="z2f_GenerateTokenMessage" value="{$1|6|12345|6222020200000000000$}" />
-				<input type="hidden" name="url" value="/STCard/certpassword.jsp" />
+				<input type="hidden" name="url" value="/KTCard/certpassword.jsp" />
 				<input type="hidden" id="stk_name" name="stk_name" value="<%=request.getParameter("stk_name")%>" />
 				<input type="hidden" id="stk_cardNo" name="stk_cardNo" value="<%=request.getParameter("stk_cardNo")%>" />
 				<input type="hidden" id="stk_balance" name="stk_balance" value="<%=request.getParameter("stk_balance")%>" />
@@ -639,7 +639,7 @@ function stepCallBack(callBackResult){
 			 <form name="prev1" method="post" action="<%=postUrl%>">
 				<input type="hidden" name="dse_sessionId" value="<%=sessionId%>" />
 				<input type="hidden" name="c_sessionId" value="<%=c_sessionId%>" />
-				<input type="hidden" name="url" value="/STCard/ukeypassword.jsp" />
+				<input type="hidden" name="url" value="/KTCard/ukeypassword.jsp" />
 				<input type="hidden" id="stk_name" name="stk_name" value="<%=request.getParameter("stk_name")%>" />
 				<input type="hidden" id="stk_cardNo" name="stk_cardNo" value="<%=request.getParameter("stk_cardNo")%>" />
 				<input type="hidden" id="stk_balance" name="stk_balance" value="<%=request.getParameter("stk_balance")%>" />
@@ -653,7 +653,7 @@ function stepCallBack(callBackResult){
 			<form name="sutongcard" method="post" action="<%=postUrl%>">
 				<input type="hidden" name="dse_sessionId" value="<%=sessionId%>" />
 				<input type="hidden" name="c_sessionId" value="<%=c_sessionId%>" />
-				<input type="hidden" name="url" value="/STCard/stcmain.jsp" />
+				<input type="hidden" name="url" value="/KTCard/stcmain.jsp" />
 			</form>
 			</div>	
 		</section>		

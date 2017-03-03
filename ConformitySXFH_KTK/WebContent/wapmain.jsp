@@ -101,14 +101,14 @@ jQuery(window).load(function(){
 				</form> --%>
 				
 				<ul class="cell_container">
-					<li class="cell_li_btn" onclick="ICBCPageTools.submitForm({'formName':'sutongcard'});">
-						<div class="cell_li_left">苏通卡业务</div>
+					<li class="cell_li_btn" onclick="ICBCPageTools.submitForm({'formName':'kuaitongcard'});">
+						<div class="cell_li_left">快通卡业务</div>
 					</li>
 				</ul>
-				<form name="sutongcard" method="post" action="<%=postUrl%>">
+				<form name="kuaitongcard" method="post" action="<%=postUrl%>">
 					<input type="hidden" name="dse_sessionId" value="<%=sessionId%>" />
 					<input type="hidden" name="c_sessionId" value="<%=c_sessionId%>" />
-					<input type="hidden" name="url" value="/STCard/stcmain.jsp" />
+					<input type="hidden" name="url" value="/KTCard/ktcmain.jsp" />
 				</form>
 				<%-- <ul class="cell_container">
 					<li class="cell_li_btn" onclick="ICBCPageTools.submitForm({'formName':'schoolcard'});">

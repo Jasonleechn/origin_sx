@@ -19,7 +19,7 @@ public class Log_etc_singleton extends Logger_init{
     	super(VLoger.Type.DayPath, "SXFH_ETC.log");
     	
     	//设定日志保存路径
-    	VWorkSpace.setFullWorkdDir("D\\:/log/");
+    	VWorkSpace.setFullWorkdDir("D:/log/");
     }
        
     public static Log_etc_singleton getInstance() {   

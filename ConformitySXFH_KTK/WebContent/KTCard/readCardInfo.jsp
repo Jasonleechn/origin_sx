@@ -11,8 +11,8 @@
 	String custAuthenType=(String)MySessionContext.getSession(c_sessionId).getAttribute("custAuthenType");
 %>
 <script type="text/javascript">
-var card_fullid = ""; //苏通卡卡号
-var cardname = "";    //苏通卡姓名
+var card_fullid = ""; //快通卡卡号
+var cardname = "";    //快通卡姓名
 var RemassAMTHEX = "";//卡余额HEX
 var byInfo = "";      //卡余额
 var custName = "<%=custName%>";      //手机银行客户姓名
@@ -20,8 +20,8 @@ var custArea = "<%=mainAreaCode%>";  //手机银行客户地区号
 var authType = "<%=custAuthenType%>";
 var errMsg = "";      //错误信息
 var errCmd = "";       //出错时执行的指令
-var cardType = "";     //20140115增加卡片类型判断
-var deviceType="dovila"; //20150522增加支持NFC功能
+var cardType = "";     //卡片类型判断
+var deviceType="dovila"; //支持NFC功能
 
 jQuery(document).ready(function(){
  	//页面加载后就设置充值按钮不可用
@@ -114,7 +114,7 @@ function getSTKName(str){
 	ICBCSpecialCardTools.nativeShowIndicator();
 	$.ajaxSetup({
 		async:false});
-	$.post("<%=urlHead%>/STCard/DataHandler",
+	$.post("<%=urlHead%>/KTCard/DataHandler",
 			{"type":"getSTKName","param":str,"tag":tag},
 			function(data, textStatus){
 				ICBCSpecialCardTools.nativeHideIndicator();
@@ -130,13 +130,13 @@ function getSTKName(str){
 }
 
 function sendErrMsg(str1, str2){
-	var msg = "苏通卡查询异常--"+getDateTime()+"--"+str1+"--"+str2;
+	var msg = "快通卡查询异常--"+getDateTime()+"--"+str1+"--"+str2;
 	msg = encodeURI(msg);
 	var tag = custArea+"地区,"+custName+"用户";
 	tag = encodeURI(tag);
 	$.ajaxSetup({
 		async:false});
-	$.post("<%=urlHead%>/STCard/DataHandler",
+	$.post("<%=urlHead%>/KTCard/DataHandler",
 			{"type":"sendErrMsg","param":msg,"tag":tag},
 			function(data, textStatus){
 				if(data.retCode == "0") {			
@@ -164,8 +164,8 @@ function stepCallBack(callBackResult){
 				}else if(callBackResult.step==2){
 					//jQuery('#stepDetail').append("<div><p style='color:red'>step"+callBackResult.step+":<p>"+resultString+"</div>");
                     if(resultString==null || resultString=="" || resultString.substr(resultString.length-4) != "9000"){
-						//alert("选择苏通卡应用失败，请确认卡片是否是苏通卡！");
-						jQuery('#stepDetail').append("<div><p style='color:red'>请确认已正确连接苏通卡！</div>");
+						//alert("选择快通卡应用失败，请确认卡片是否是快通卡！");
+						jQuery('#stepDetail').append("<div><p style='color:red'>请确认已正确连接快通卡！</div>");
 						sendErrMsg("选择应用失败，指令：00a40000023F00", resultString);
 						ICBCSpecialCardTools.endConformityTransmit();
                     }else{
@@ -177,15 +177,15 @@ function stepCallBack(callBackResult){
 					
 					if(resultString == null || resultString=="" || resultString.substr(resultString.length-4) != "9000")
 		            {
-		               //alert("查询基本数据错误，苏通卡查询失败！");
+		               //alert("查询基本数据错误，快通卡查询失败！");
 		               sendErrMsg("查询基本数据错误,指令：00b0960037", resultString);
 		               ICBCSpecialCardTools.endConformityTransmit();		            
 		            }else{
-		            	//对上一步查询基本数据返回结果进行处理，取得苏通卡姓名
+		            	//对上一步查询基本数据返回结果进行处理，取得快通卡姓名
 						cardname = getSTKName(resultString);
 						if(cardname == ""){
-							//alert("获取苏通卡姓名失败！");
-				            sendErrMsg("获取苏通卡姓名失败！", errMsg);
+							//alert("获取快通卡姓名失败！");
+				            sendErrMsg("获取快通卡姓名失败！", errMsg);
 							//ICBCSpecialCardTools.endConformityTransmit();
 				            executeTransmit({'msgFlag':'1','msgBuf':'00a40000021001','step':4});
 						}else{
@@ -197,7 +197,7 @@ function stepCallBack(callBackResult){
 				}else if(callBackResult.step==4){
 					//jQuery('#stepDetail').append("<div><p style='color:red'>step"+callBackResult.step+":<p>"+resultString+"</div>");
 					if(resultString==null || resultString=="" || resultString.substr(resultString.length-4) != "9000"){
-						//alert("选择苏通卡应用失败，请确认卡片是否是苏通卡！");
+						//alert("选择快通卡应用失败，请确认卡片是否是快通卡！");
 						sendErrMsg("选择应用失败，指令：00a40000021001", resultString);
 						ICBCSpecialCardTools.endConformityTransmit();
                     }else{
@@ -208,22 +208,24 @@ function stepCallBack(callBackResult){
 					//jQuery('#stepDetail').append("<div><p style='color:red'>step"+callBackResult.step+":<p>"+resultString+"</div>");
 					if(resultString==null || resultString=="" || resultString.substr(resultString.length-4) != "9000")
 		            {
-		            	//alert("查询卡片发行数据错误，苏通卡查询失败！");
+		            	//alert("查询卡片发行数据错误，快通卡查询失败！");
 		            	sendErrMsg("查询卡片发行数据错误，指令：00b095002b", resultString);
 		            	ICBCSpecialCardTools.endConformityTransmit();		            
 		            }else{
 			           	cardType = parseInt(resultString.substring(16,18),16)+"";
 			            var card_netno1 = parseInt(resultString.substring(20,22),16)+"";
-			            if(card_netno1.length < 2)
+			            if(card_netno1.length < 2){
 				            card_netno1 = "0"+card_netno1;
+			            }
 			            var card_netno2 = parseInt(resultString.substring(22,24),16)+"";
-			            if(card_netno2.length < 2)
+			            if(card_netno2.length < 2){
 				            card_netno2 = "0"+card_netno2;
+			            }
 			            var card_netno = card_netno1 + card_netno2;
 			            var card_cpuid = resultString.substring(24,40);
-			            card_fullid = card_netno + card_cpuid;     //苏通卡卡号
+			            card_fullid = card_netno + card_cpuid;     //快通卡卡号
 			            // var card_open_date = resultString.substring(40, 48); 
-			            var card_end_date = resultString.substring(48, 56); //苏通卡到期时间
+			            var card_end_date = resultString.substring(48, 56); //快通卡到期时间
 
 			            jQuery('#stkNum').html(card_fullid);
 			            jQuery('#stkExpireDate').html(card_end_date);
@@ -240,7 +242,7 @@ function stepCallBack(callBackResult){
 					//jQuery('#stepDetail').append("<div><p style='color:red'>step"+callBackResult.step+":<p>"+resultString+"</div>");
 					 if(resultString==null || resultString=="" || resultString.substr(resultString.length-4) != "9000")
 			         {
-			             //alert("卡片PIN校验错误，苏通卡查询失败！");
+			             //alert("卡片PIN校验错误，快通卡查询失败！");
 			             sendErrMsg("PIN校验失败，指令：0020000003888888", resultString);
 			             ICBCSpecialCardTools.endConformityTransmit();
 			         }else {
@@ -251,7 +253,7 @@ function stepCallBack(callBackResult){
 					//jQuery('#stepDetail').append("<div><p style='color:red'>step"+callBackResult.step+":<p>"+resultString+"</div>");
 					if(resultString==null || resultString=="" || resultString.substr(resultString.length-4) != "9000")
 		            {
-		            	//alert("读取余额文件异常，苏通卡查询失败！");
+		            	//alert("读取余额文件异常，快通卡查询失败！");
 		            	sendErrMsg("读取余额文件失败，指令：805C000204", resultString);
 		            	ICBCSpecialCardTools.endConformityTransmit();            
 		            }else{
@@ -271,7 +273,7 @@ function stepCallBack(callBackResult){
 					//jQuery('#stepDetail').append("<div><p style='color:red'>step"+callBackResult.step+":<p>"+resultString+"</div>");
 					if(resultString==null || resultString=="" || resultString.substr(resultString.length-4) != "9000")
 		            {
-		            	//alert("读取余额文件后续数据异常，苏通卡查询失败！");
+		            	//alert("读取余额文件后续数据异常，快通卡查询失败！");
 		            	sendErrMsg("读取余额文件后续数据失败，指令："+errCmd, resultString);
 		            	ICBCSpecialCardTools.endConformityTransmit();	
 		            }else{
@@ -319,8 +321,8 @@ function stepCallBack(callBackResult){
 	<header>
 		<nav>
 			<button id="returnButton" class="nav_left_btn" onclick="ICBCPageTools.submitALink({'linkId':'returnLink'})">返回</button>
-			<a id="returnLink" class="hide" href="<%=urlHead%>/STCard/stcmain.jsp&c_sessionId=<%=c_sessionId%>"></a>
-			<h1 class="nav_title" id="nav_title">苏通卡查询</h1>
+			<a id="returnLink" class="hide" href="<%=urlHead%>/KTCard/ktcmain.jsp&c_sessionId=<%=c_sessionId%>"></a>
+			<h1 class="nav_title" id="nav_title">快通卡查询</h1>
 			<button class="nav_right_btn" onclick="execute()">查询</button>
 		</nav>
 	</header>
@@ -332,10 +334,10 @@ function stepCallBack(callBackResult){
 				<ul class="cell_container">
 					<li><!-- 若首行缩进class加入indent_txt -->
 						<div class="cell_li_left">
-						<div class="cell_li_txt">读卡方式支持音频或NFC两种模式。选择音频模式请正确连接外接读卡设备及苏通卡；NFC模式只支持具有NFC功能的安卓智能手机，选择该模式请打开手机NFC功能，并将苏通卡放置在手机背面。</div>
+						<div class="cell_li_txt">读卡方式支持NFC模式。NFC模式只支持具有NFC功能的安卓智能手机，选择该模式请打开手机NFC功能，并将快通卡放置在手机背面。</div>
 						<div id="stepDetail"></div>
 						</div>
-					</li>		
+					</li>
 				</ul>
 			</section>
 			
@@ -347,9 +349,9 @@ function stepCallBack(callBackResult){
 							<!-- 单选按钮后可以跟label标签 展现单选按钮名字（可选），注意对应的for要和id一致  -->
 							<input id="radio1" name="radioButton" type="radio" value="1" checked="checked"/><label for="radio1" class="vl_mid il">NFC</label>
 						</div>
-						<div class="cell_flex">
+						<!-- <div class="cell_flex">
 							<input id="radio2" name="radioButton" type="radio" value="2"/><label for="radio2" class="vl_mid il">音频</label>
-						</div>
+						</div> -->
 					</li>		
 				</ul>
 			</section>
@@ -358,19 +360,19 @@ function stepCallBack(callBackResult){
 				<h2 class="section_title">查询结果信息</h2>
 				<ul class="cell_container">
 					<li>
-						<div class="cell_li_left">苏通卡卡号</div>
+						<div class="cell_li_left">快通卡卡号</div>
 						<div id="stkNum" class="cell_li_right gray_txt"></div>
 					</li>
 					<li>
-						<div class="cell_li_left">苏通卡姓名</div>
+						<div class="cell_li_left">快通卡姓名</div>
 						<div id="stkName" class="cell_li_right gray_txt"></div>
 					</li>
 					<li>
-						<div class="cell_li_left">苏通卡到期时间</div>
+						<div class="cell_li_left">快通卡到期时间</div>
 						<div id="stkExpireDate" class="cell_li_right gray_txt"></div>
 					</li>
 					<li>
-						<div class="cell_li_left">苏通卡余额</div>
+						<div class="cell_li_left">快通卡余额</div>
 						<div id="stkBalance" class="cell_li_right gray_txt"></div>
 					</li>
 				</ul>
@@ -393,7 +395,7 @@ function stepCallBack(callBackResult){
 				<input type="hidden" id="stk_cardNo" name="stk_cardNo" value="" />
 				<input type="hidden" id="stk_balance" name="stk_balance" value="" />
 				<input type="hidden" id="stk_mode" name="stk_mode" value="" />
-				<input type="hidden" name="url" value="/STCard/doCharge.jsp" />
+				<input type="hidden" name="url" value="/KTCard/doCharge.jsp" />
 			</form>
 		</section>
 	</footer>

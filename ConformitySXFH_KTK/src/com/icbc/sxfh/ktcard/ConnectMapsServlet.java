@@ -9,11 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.icbc.sxfh.common.CommonTrade;
+import com.icbc.sxfh.util.Log_etc_singleton;
 
 
 
@@ -22,7 +22,7 @@ import com.icbc.sxfh.common.CommonTrade;
  */
 public class ConnectMapsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private final static Logger log = Logger.getLogger(ConnectMapsServlet.class);
+	private final static Log_etc_singleton logger = Log_etc_singleton.getInstance();
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -54,16 +54,16 @@ public class ConnectMapsServlet extends HttpServlet {
 		String tag = request.getParameter("tag");
 		tag = URLDecoder.decode(tag,"UTF-8");
 		tag = tag+"-交易代码"+transCode+"---------------";
-		log.info(tag);
+		logger.log(tag);
 		//String areaNo = "4301";
 
-		//苏通卡充值
+		//快通卡充值
 		if(transCode.equals("84358")){
 			response.setContentType("text/html;charset=utf-8"); 
 			String param = request.getParameter("param"); 
 			String transtime = request.getParameter("transTime");  
-			log.info(tag+"交易请求数据param:"+param);
-			log.info(tag+"交易时间transtime:"+transtime);
+			logger.log(tag+"交易请求数据param:"+param);
+			logger.log(tag+"交易时间transtime:"+transtime);
 			String name = URLDecoder.decode(CommonTrade.getField(param, 8),"UTF-8");
 			//log.info("name------------"+CommonTrade.getField(param, 8));
 			//log.info("decode name------------"+name);
@@ -71,11 +71,11 @@ public class ConnectMapsServlet extends HttpServlet {
 			if(param1 == "")
 				param1 = param; 
 			//param = URLDecoder.decode(param,"UTF-8");
-			log.info(tag+"中文解码后数据param1:"+param1);
+			logger.log(tag+"中文解码后数据param1:"+param1);
 			String areaNo = CommonTrade.getField(param1, 6).substring(1,6);
 			String publiccode = transCode +"|"+ areaNo + "|";
-			log.info(tag+"交易码+地区号publiccode:"+publiccode);
-			STCardService st = new STCardService(param1, publiccode, transtime, tag);
+			logger.log(tag+"交易码+地区号publiccode:"+publiccode);
+			KTCardService st = new KTCardService(param1, publiccode, transtime, tag);
 			JSONObject json = new JSONObject(); 
 			pw = response.getWriter(); 
 			try{
@@ -87,8 +87,8 @@ public class ConnectMapsServlet extends HttpServlet {
 					json.put("retMsg", retMsg);
 					String mac_key = CommonTrade.getField(result, 4);
 					String serialNo = CommonTrade.getField(result, 3);
-					log.info(tag+"中间业务平台返回结果MAC KEY:"+mac_key);
-					log.info(tag+"中间业务平台返回结果serialNo:"+serialNo);
+					logger.log(tag+"中间业务平台返回结果MAC KEY:"+mac_key);
+					logger.log(tag+"中间业务平台返回结果serialNo:"+serialNo);
 					json.put("mackey", mac_key);
 					json.put("serno", serialNo);
 				}else{
@@ -101,7 +101,7 @@ public class ConnectMapsServlet extends HttpServlet {
 				e.printStackTrace();
 			}				        
 		    pw.print(json.toString());    
-		    log.info(tag+"返回json object:"+json.toString()); 
+		    logger.log(tag+"返回json object:"+json.toString()); 
 		    pw.close(); 
 		}
 		
@@ -111,11 +111,11 @@ public class ConnectMapsServlet extends HttpServlet {
 			String param = request.getParameter("param");  
 			String transtime = request.getParameter("transTime");  
 			String areaNo = request.getParameter("areaNo");
-			log.info(tag+"交易请求数据param："+param);
-			log.info(tag+"交易时间transtime："+transtime);
+			logger.log(tag+"交易请求数据param："+param);
+			logger.log(tag+"交易时间transtime："+transtime);
 			String publiccode = transCode +"|"+ areaNo + "|";
-			log.info(tag+"交易码+地区号publiccode："+publiccode);
-			STCardService st = new STCardService(param, publiccode, transtime, tag);
+			logger.log(tag+"交易码+地区号publiccode："+publiccode);
+			KTCardService st = new KTCardService(param, publiccode, transtime, tag);
 			JSONObject json = new JSONObject(); 
 			pw = response.getWriter(); 
 			try{
@@ -134,7 +134,7 @@ public class ConnectMapsServlet extends HttpServlet {
 				e.printStackTrace();
 			}				        
 		    pw.print(json.toString());    
-		    log.info(tag+"返回json object :"+json.toString()); 
+		    logger.log(tag+"返回json object :"+json.toString()); 
 		    pw.close(); 
 		}
 		
@@ -144,11 +144,11 @@ public class ConnectMapsServlet extends HttpServlet {
 			String param = request.getParameter("param");  
 			String transtime = request.getParameter("transTime");  
 			String areaNo = request.getParameter("areaNo");
-			log.info(tag+"交易请求数据param："+param);
-			log.info(tag+"交易时间transtime："+transtime);
+			logger.log(tag+"交易请求数据param："+param);
+			logger.log(tag+"交易时间transtime："+transtime);
 			String publiccode = transCode +"|"+ areaNo + "|";
-			log.info(tag+"交易码+地区号publiccode："+publiccode);
-			STCardService st = new STCardService(param, publiccode, transtime, tag);
+			logger.log(tag+"交易码+地区号publiccode："+publiccode);
+			KTCardService st = new KTCardService(param, publiccode, transtime, tag);
 			JSONObject json = new JSONObject(); 
 			pw = response.getWriter(); 
 			try{
@@ -171,7 +171,7 @@ public class ConnectMapsServlet extends HttpServlet {
 				e.printStackTrace();
 			}				        
 		    pw.print(json.toString());    
-		    log.info(tag+"返回json object:"+json.toString()); 
+		    logger.log(tag+"返回json object:"+json.toString()); 
 		    pw.close(); 
 		}
 		

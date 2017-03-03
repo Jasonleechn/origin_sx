@@ -128,13 +128,13 @@ function getDateTime(){
 }
 
 function sendErrMsg(str1, str2){
-	var msg = "苏通卡查询异常--"+getDateTime()+"--"+str1+"--"+str2;
+	var msg = "快通卡查询异常--"+getDateTime()+"--"+str1+"--"+str2;
 	msg = encodeURI(msg);
 	var tag = custArea+"地区,"+custName+"用户";
 	tag = encodeURI(tag);
 	$.ajaxSetup({
 		async:false});
-	$.post("<%=urlHead%>/STCard/DataHandler",
+	$.post("<%=urlHead%>/KTCard/DataHandler",
 			{"type":"sendErrMsg","param":msg,"tag":tag},
 			function(data, textStatus){
 				if(data.retCode == "0") {			
@@ -161,7 +161,7 @@ function stepCallBack(callBackResult){
 				}else if(callBackResult.step==2){
 					//jQuery('#stepDetail').append("<div><p style='color:red'>step"+callBackResult.step+":<p>"+resultString+"</div>");
 					if(resultString==null || resultString=="" || resultString.substr(resultString.length-4) != "9000"){
-						//alert("选择苏通卡应用失败，请确认卡片是否是苏通卡！");
+						//alert("选择快通卡应用失败，请确认卡片是否是快通卡！");
 						sendErrMsg("选择应用失败，指令：00a40000021001", resultString);
 						ICBCSpecialCardTools.endConformityTransmit();
                     }else{
@@ -257,8 +257,8 @@ function stepCallBack(callBackResult){
 	<header>
 		<nav>
 			<button id="returnButton" class="nav_left_btn" onclick="ICBCPageTools.submitALink({'linkId':'returnLink'})">返回</button>
-			<a id="returnLink" class="hide" href="<%=urlHead%>/STCard/stcmain.jsp&c_sessionId=<%=c_sessionId%>"></a>
-			<h1 class="nav_title" id="nav_title">苏通储值卡明细查询</h1>
+			<a id="returnLink" class="hide" href="<%=urlHead%>/KTCard/stcmain.jsp&c_sessionId=<%=c_sessionId%>"></a>
+			<h1 class="nav_title" id="nav_title">快通储值卡明细查询</h1>
 		</nav>
 	</header>
 	<div id="content" class="content">
@@ -268,7 +268,7 @@ function stepCallBack(callBackResult){
 				<ul class="cell_container">
 					<li><!-- 若首行缩进class加入indent_txt -->
 						<div class="cell_li_left">
-						<div class="cell_li_txt">读卡方式支持音频或NFC两种模式。选择音频模式请正确连接外接读卡设备及苏通卡；NFC模式只支持具有NFC功能的安卓智能手机，选择该模式请打开手机NFC功能，并将苏通卡放置在手机背面。</div>
+						<div class="cell_li_txt">读卡方式支持音频或NFC两种模式。选择音频模式请正确连接外接读卡设备及快通卡；NFC模式只支持具有NFC功能的安卓智能手机，选择该模式请打开手机NFC功能，并将快通卡放置在手机背面。</div>
 						<div id="stepDetail"></div>
 						</div>
 					</li>		
@@ -305,7 +305,7 @@ function stepCallBack(callBackResult){
 				<input type="hidden" id="tag" name="tag" value="1" />
 				<input type="hidden" id="prePage" name="prePage" value="" />
 				<input type="hidden" id="stk_mode" name="stk_mode" value="<%=request.getParameter("stk_mode")%>" />
-				<input type="hidden" name="url" value="/STCard/readDetailInfo1.jsp" />
+				<input type="hidden" name="url" value="/KTCard/readDetailInfo1.jsp" />
 			</form>
 			<form name="nextForm" method="post" action="<%=postUrl%>">
 				<input type="hidden" name="dse_sessionId" value="<%=sessionId%>" />
@@ -313,7 +313,7 @@ function stepCallBack(callBackResult){
 				<input type="hidden" id="tag" name="tag" value="2" />
 				<input type="hidden" id="nextPage" name="nextPage" value="" />
 				<input type="hidden" id="stk_mode" name="stk_mode" value="<%=request.getParameter("stk_mode")%>" />
-				<input type="hidden" name="url" value="/STCard/readDetailInfo1.jsp" />
+				<input type="hidden" name="url" value="/KTCard/readDetailInfo1.jsp" />
 			</form>						
 		</div>
 	</div>

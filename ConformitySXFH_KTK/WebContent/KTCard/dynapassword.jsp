@@ -30,7 +30,7 @@
 	<header>
 		<nav>
 			<button id="returnButton" class="nav_left_btn" onclick="ICBCPageTools.submitALink({'linkId':'returnLink'})">取消</button>
-			<a id="returnLink" class="hide" href="<%=urlHead%>/STCard/stcmain.jsp&c_sessionId=<%=c_sessionId%>"></a>
+			<a id="returnLink" class="hide" href="<%=urlHead%>/KTCard/stcmain.jsp&c_sessionId=<%=c_sessionId%>"></a>
 			<h1 class="nav_title" id="nav_title">口令卡验签</h1>
 			<button id="nextButton" class="nav_right_btn" onclick="ICBCPageTools.submitForm({'formName':'next'});">确定</button>
 		</nav>
@@ -40,7 +40,7 @@
 			<form name="next" method="post" action="<%=postUrl%>">
 				<input type="hidden" name="dse_sessionId" value="<%=sessionId%>" />
 				<input type="hidden" name="c_sessionId" value="<%=c_sessionId%>" />
-				<input type="hidden" name="url" value="/STCard/chargeResult.jsp" />
+				<input type="hidden" name="url" value="/KTCard/chargeResult.jsp" />
 				<input type="hidden" id="stk_name" name="stk_name" value="<%=request.getParameter("stk_name")%>" />
 				<input type="hidden" id="stk_cardNo" name="stk_cardNo" value="<%=request.getParameter("stk_cardNo")%>" />
 				<input type="hidden" id="stk_balance" name="stk_balance" value="<%=request.getParameter("stk_balance")%>" />

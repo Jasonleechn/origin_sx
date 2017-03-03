@@ -33,13 +33,13 @@ if(MySessionContext.Mode==MySessionContext.ModeType.Normal){
 	sStylePath = request.getParameter("z2f_style_path");
 	resourcePath = request.getParameter("z2f_resource_path");
 }else{
-	resourcePath = "/ConformityJSFH_STK/ForTest/ebdpui/";
+	resourcePath = "/ConformitySXFH_KTK/ForTest/ebdpui/";
 	if("Android".equalsIgnoreCase(icbc_uaflag)){
-		sStylePath = "/ConformityJSFH_STK/ForTest/ebdpui/icbc_android/";
+		sStylePath = "/ConformitySXFH_KTK/ForTest/ebdpui/icbc_android/";
 	}else if("WindowsPhone".equalsIgnoreCase(icbc_uaflag)){
-		sStylePath = "/ConformityJSFH_STK/ForTest/ebdpui/icbc_windowsphone/";
+		sStylePath = "/ConformitySXFH_KTK/ForTest/ebdpui/icbc_windowsphone/";
 	}else if("iPhone".equalsIgnoreCase(icbc_uaflag)){
-		sStylePath = "/ConformityJSFH_STK/ForTest/ebdpui/icbc_iphone/";
+		sStylePath = "/ConformitySXFH_KTK/ForTest/ebdpui/icbc_iphone/";
 	}
 }
 if(sStylePath!=null&&sStylePath.length()>0){

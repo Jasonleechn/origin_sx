@@ -109,13 +109,13 @@ function getDateTime(){
 }
 
 function sendErrMsg(str1, str2){
-	var msg = "苏通卡查询异常--"+getDateTime()+"--"+str1+"--"+str2;
+	var msg = "快通卡查询异常--"+getDateTime()+"--"+str1+"--"+str2;
 	msg = encodeURI(msg);
 	var tag = custArea+"地区,"+custName+"用户";
 	tag = encodeURI(tag);
 	$.ajaxSetup({
 		async:false});
-	$.post("<%=urlHead%>/STCard/DataHandler",
+	$.post("<%=urlHead%>/KTCard/DataHandler",
 			{"type":"sendErrMsg","param":msg,"tag":tag},
 			function(data, textStatus){
 				if(data.retCode == "0") {			
@@ -151,7 +151,7 @@ function stepCallBack(callBackResult){
 				}else if(callBackResult.step==2){
 					//jQuery('#stepDetail').append("<div><p style='color:red'>step"+callBackResult.step+":<p>"+resultString+"</div>");
 					if(resultString==null || resultString=="" || resultString.substr(resultString.length-4) != "9000"){
-						//alert("选择苏通卡应用失败，请确认卡片是否是苏通卡！");
+						//alert("选择快通卡应用失败，请确认卡片是否是快通卡！");
 						sendErrMsg("选择应用失败，指令：00a40000021001", resultString);
 						ICBCSpecialCardTools.endConformityTransmit();
                     }else{
@@ -161,7 +161,7 @@ function stepCallBack(callBackResult){
 					//jQuery('#stepDetail').append("<div><p style='color:red'>step"+callBackResult.step+":<p>"+resultString+"</div>");
 					 if(resultString==null || resultString=="" || resultString.substr(resultString.length-4) != "9000")
 			         {
-						 //alert("查询卡片发行数据错误，苏通卡查询失败！");
+						 //alert("查询卡片发行数据错误，快通卡查询失败！");
 			             sendErrMsg("查询卡片发行数据错误，指令：00b095002b", resultString);
 			             ICBCSpecialCardTools.endConformityTransmit();
 			         }else{			
@@ -258,8 +258,8 @@ function stepCallBack(callBackResult){
 	<header>
 		<nav>
 			<button id="returnButton" class="nav_left_btn" onclick="ICBCPageTools.submitALink({'linkId':'returnLink'})">返回</button>
-			<a id="returnLink" class="hide" href="<%=urlHead%>/STCard/stcmain.jsp&c_sessionId=<%=c_sessionId%>"></a>
-			<h1 class="nav_title" id="nav_title">苏通储值卡明细查询</h1>
+			<a id="returnLink" class="hide" href="<%=urlHead%>/KTCard/ktcmain.jsp&c_sessionId=<%=c_sessionId%>"></a>
+			<h1 class="nav_title" id="nav_title">快通储值卡明细查询</h1>
 			<button class="nav_right_btn" onclick="execute()">查询</button>
 		</nav>
 	</header>
@@ -270,7 +270,7 @@ function stepCallBack(callBackResult){
 				<ul class="cell_container">
 					<li><!-- 若首行缩进class加入indent_txt -->
 						<div class="cell_li_left">
-						<div class="cell_li_txt">读卡方式支持音频或NFC两种模式。选择音频模式请正确连接外接读卡设备及苏通卡；NFC模式只支持具有NFC功能的安卓智能手机，选择该模式请打开手机NFC功能，并将苏通卡放置在手机背面。</div>
+						<div class="cell_li_txt">读卡方式支持NFC两种模式。NFC模式只支持具有NFC功能的安卓智能手机，选择该模式请打开手机NFC功能，并将快通卡放置在手机背面。</div>
 						<div id="stepDetail"></div>
 						</div>
 					</li>		
@@ -284,9 +284,9 @@ function stepCallBack(callBackResult){
 							<!-- 单选按钮后可以跟label标签 展现单选按钮名字（可选），注意对应的for要和id一致  -->
 							<input id="radio1" name="radioButton" type="radio" value="1" checked="checked"/><label for="radio1" class="vl_mid il">NFC</label>
 						</div>
-						<div class="cell_flex">
+						<!-- <div class="cell_flex">
 							<input id="radio2" name="radioButton" type="radio" value="2"/><label for="radio2" class="vl_mid il">音频</label>
-						</div>
+						</div> -->
 					</li>		
 				</ul>
 			</section>
@@ -321,7 +321,7 @@ function stepCallBack(callBackResult){
 				<input type="hidden" id="tag" name="tag" value="2" />
 				<input type="hidden" id="nextPage" name="nextPage" value="" />
 				<input type="hidden" id="stk_mode" name="stk_mode" value="" />
-				<input type="hidden" name="url" value="/STCard/readDetailInfo1.jsp" />
+				<input type="hidden" name="url" value="/KTCard/readDetailInfo1.jsp" />
 			</form>				
 		</div>
 	</div>

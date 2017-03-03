@@ -5,7 +5,7 @@ String sStylePath="";
 if(MySessionContext.Mode==MySessionContext.ModeType.Normal){
 	sStylePath = request.getParameter("z2f_style_path");
 }else{
-	sStylePath = "/ConformityJSFH_STK/ForTest/3gstyle/grey/";
+	sStylePath = "/ConformitySXFH_KTK/ForTest/3gstyle/grey/";
 }
 if(sStylePath!=null&&sStylePath.length()>0){
 	//save in session

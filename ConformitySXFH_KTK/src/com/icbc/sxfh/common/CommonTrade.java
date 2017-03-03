@@ -5,12 +5,17 @@
 
 package com.icbc.sxfh.common;
 
-import java.util.*;
-import java.io.*;
-import java.text.SimpleDateFormat;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 
-import org.apache.log4j.Logger;
+import com.icbc.sxfh.util.Log_etc_singleton;
 
 
 // import java.util.logging.*;
@@ -33,7 +38,7 @@ public class CommonTrade {
 	private String strRecive = null;
 	private byte byteSend[] = null;
 	
-	private final static Logger log = Logger.getLogger(CommonTrade.class);
+	private final static Log_etc_singleton logger = Log_etc_singleton.getInstance();
 
 //	static {
 //		try {
@@ -67,7 +72,7 @@ public class CommonTrade {
 	}
 
 	public String TcpCommProxy(String ip, String port) {
-		log.info("m byteSend    : " + byteSend);
+		logger.log("m byteSend    : " + byteSend);
 		try {
 			
 			workSocket = new Socket(ip, Integer.parseInt(port));
@@ -91,7 +96,7 @@ public class CommonTrade {
 			else
 				strRecive = new String(abyte8);
 			//System.out.println("strRecive  :" + strRecive);
-			log.info("m strRecive  :" + strRecive);
+			logger.log("m strRecive  :" + strRecive);
 			return strRecive; // 通过Socket发送，并接收返回报文
 		} catch (Exception ex1) {
 

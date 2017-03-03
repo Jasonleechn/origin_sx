@@ -32,7 +32,7 @@ function getSingleLimit(){
 	ICBCSpecialCardTools.nativeShowIndicator();
 	$.ajaxSetup({
 		async:false});
-	$.post("<%=urlHead%>/STCard/DataHandler",
+	$.post("<%=urlHead%>/KTCard/DataHandler",
 			{"type":"getSingleLimit","tag":tag},
 			function(data, textStatus){
 				ICBCSpecialCardTools.nativeHideIndicator();
@@ -54,15 +54,15 @@ function checkInput(){
 	debitCardno = jQuery("#cardlist").find("option:selected").text();
 
 	if(name == null || name == ""){
-		//alert("获取苏通卡姓名失败！");
+		//alert("获取快通卡姓名失败！");
 		//return false;
 	}
 	if(cardNo == null || cardNo == ""){
-		//alert("获取苏通卡卡号失败！");
+		//alert("获取快通卡卡号失败！");
 		//return false;
 	}
 	if(balance == null || balance == ""){
-		//alert("获取苏通卡余额失败！");
+		//alert("获取快通卡余额失败！");
 		//return false;
 	}
 	
@@ -204,8 +204,8 @@ function execute(){
 	<header>
 		<nav>
 			<button id="returnButton" class="nav_left_btn" onclick="ICBCPageTools.submitALink({'linkId':'returnLink'})">取消</button>
-			<a id="returnLink" class="hide" href="<%=urlHead%>/STCard/stcmain.jsp&c_sessionId=<%=c_sessionId%>"></a>
-			<h1 class="nav_title" id="nav_title">苏通卡充值</h1>
+			<a id="returnLink" class="hide" href="<%=urlHead%>/KTCard/stcmain.jsp&c_sessionId=<%=c_sessionId%>"></a>
+			<h1 class="nav_title" id="nav_title">快通卡充值</h1>
 			<button class="nav_right_btn" onclick="execute()">确定</button>
 		</nav>
 	</header>
@@ -216,7 +216,7 @@ function execute(){
 				<ul class="cell_container">
 					<li><!-- 若首行缩进class加入indent_txt -->
 						<div class="cell_li_left">
-						<div class="cell_li_txt">请选择转出卡号并输入充值金额，点击右上角确定按钮进入认证介质验密页面。在充值过程中请勿移动苏通卡，并耐心等待充值结果页面，否则可能会导致充值失败！</div>
+						<div class="cell_li_txt">请选择转出卡号并输入充值金额，点击右上角确定按钮进入认证介质验密页面。在充值过程中请勿移动快通卡，并耐心等待充值结果页面，否则可能会导致充值失败！</div>
 						<div id="stepDetail"></div>
 						</div>
 					</li>		
@@ -249,7 +249,7 @@ function execute(){
 				<input type="hidden" name="dse_sessionId" value="<%=sessionId%>" />
 				<input type="hidden" name="c_sessionId" value="<%=c_sessionId%>" />
 				<input type="hidden" id="token" name="z2f_GenerateTokenMessage" value="{$1|6|12345|6222020200000000000$}" />
-				<input type="hidden" name="url" value="/STCard/certpassword.jsp" />
+				<input type="hidden" name="url" value="/KTCard/certpassword.jsp" />
 				<input type="hidden" id="stk_name" name="stk_name" value="" />
 				<input type="hidden" id="stk_cardNo" name="stk_cardNo" value="" />
 				<input type="hidden" id="stk_balance" name="stk_balance" value="" />
@@ -261,7 +261,7 @@ function execute(){
 			<form name="ukeypass" method="post" action="<%=postUrl%>">
 				<input type="hidden" name="dse_sessionId" value="<%=sessionId%>" />
 				<input type="hidden" name="c_sessionId" value="<%=c_sessionId%>" />
-				<input type="hidden" name="url" value="/STCard/ukeypassword.jsp" />
+				<input type="hidden" name="url" value="/KTCard/ukeypassword.jsp" />
 				<input type="hidden" id="stk_name2" name="stk_name" value="" />
 				<input type="hidden" id="stk_cardNo2" name="stk_cardNo" value="" />
 				<input type="hidden" id="stk_balance2" name="stk_balance" value="" />
@@ -274,7 +274,7 @@ function execute(){
 				<input type="hidden" name="dse_sessionId" value="<%=sessionId%>" />
 				<input type="hidden" name="c_sessionId" value="<%=c_sessionId%>" />
 				<input type="hidden" name="ic2f_DynaPwdReqFmt" value="{$ic2f_DynaPwdReqFmt$}" />
-				<input type="hidden" name="url" value="/STCard/dynapassword.jsp" />
+				<input type="hidden" name="url" value="/KTCard/dynapassword.jsp" />
 				<input type="hidden" id="stk_name1" name="stk_name" value="" />
 				<input type="hidden" id="stk_cardNo1" name="stk_cardNo" value="" />
 				<input type="hidden" id="stk_balance1" name="stk_balance" value="" />

@@ -66,7 +66,7 @@ public class ICBCEPayService {
 	private static String serverPort = null;
 	
 	//获取日志工具
-	private static Log_etc_singleton logger = Log_etc_singleton.getInstance();
+	private final static Log_etc_singleton logger = Log_etc_singleton.getInstance();
 	
 	static{
 		try{
