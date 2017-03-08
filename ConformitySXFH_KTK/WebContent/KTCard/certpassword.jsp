@@ -9,7 +9,7 @@
 	<header>
 		<nav>
 			<button id="returnButton" class="nav_left_btn" onclick="ICBCPageTools.submitALink({'linkId':'returnLink'})">取消</button>
-			<a id="returnLink" class="hide" href="<%=urlHead%>/KTCard/stcmain.jsp&c_sessionId=<%=c_sessionId%>"></a>
+			<a id="returnLink" class="hide" href="<%=urlHead%>/KTCard/ktcmain.jsp&c_sessionId=<%=c_sessionId%>"></a>
 			<h1 class="nav_title" id="nav_title">动态密码器验签</h1>
 			<button id="nextButton" class="nav_right_btn" onclick="ICBCPageTools.submitForm({'formName':'next'});">确定</button>
 		</nav>

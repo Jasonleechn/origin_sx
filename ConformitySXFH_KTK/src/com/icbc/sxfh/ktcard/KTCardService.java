@@ -40,11 +40,11 @@ public class KTCardService {
 	}
 
 	public KTCardService() {
-		System.out.println("==========STCardService no params Construct========");
+		System.out.println("==========KTCardService no params Construct========");
 	}
 
 	public KTCardService(String inputarea, String publiccode, String transtime, String tag) {
-		System.out.println("==========STCardService Construct========");
+		System.out.println("==========KTCardService Construct========");
 		sendData = inputarea;
 		strPublicCode = publiccode;
 		this.transtime = transtime;
@@ -59,8 +59,7 @@ public class KTCardService {
 			properties1.load(FStream1);
 			res = properties1.getProperty("ktk_singleLimit");//单笔限额
 		} catch (Exception e) {
-			// TODO 自动生成 catch 块
-			e.printStackTrace();
+			logger.log(">>>>获取单笔限额异常：" + e);
 		}
 		return res;
 	}
@@ -76,7 +75,8 @@ public class KTCardService {
 		try {
 			byte byteSend[] = null;
 			String strRecive;
-			String strSend = makePkg(); // 创建发送报文
+			//String strSend = makePkg(); // 创建发送报文
+			String strSend = this.sendData; // 创建发送报文
 			byteSend = strSend.getBytes(); 
 			logger.log(tag+"发送报文:" + strSend);
 			String strCode = CommonTrade.getField(strPublicCode, 0); // 取交易码
@@ -185,6 +185,8 @@ public class KTCardService {
 		strTranCode = CommonTrade.getField(strPublicCode, 0);// 交易代码
 
 		String str45 =sendData;
+		
+		 //TODO 快通卡信息查询
 		
 		 // 快通卡充值
 		if (strTranCode.equals("84358")) {                         

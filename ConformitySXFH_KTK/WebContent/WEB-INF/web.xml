@@ -13,14 +13,14 @@
 		</description>
 		<display-name>DataHandlerServlet</display-name>
 		<servlet-name>DataHandlerServlet</servlet-name>
-		<servlet-class>com.icbc.jsfh.stcard.DataHandlerServlet</servlet-class>
+		<servlet-class>com.icbc.sxfh.ktcard.DataHandlerServlet</servlet-class>
 	</servlet>
 	<servlet>
 		<description>
 		</description>
 		<display-name>ConnectMapsServlet</display-name>
 		<servlet-name>ConnectMapsServlet</servlet-name>
-		<servlet-class>com.icbc.jsfh.stcard.ConnectMapsServlet</servlet-class>
+		<servlet-class>com.icbc.sxfh.ktcard.ConnectMapsServlet</servlet-class>
 	</servlet>
 	<servlet>
 		<description>
@@ -34,7 +34,7 @@
 		</description>
 		<display-name>ICBCEPayServlet</display-name>
 		<servlet-name>ICBCEPayServlet</servlet-name>
-		<servlet-class>com.icbc.jsfh.common.ICBCEPayServlet</servlet-class>
+		<servlet-class>com.icbc.sxfh.common.ICBCEPayServlet</servlet-class>
 	</servlet>
 	<servlet>
 		<description>

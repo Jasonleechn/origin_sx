@@ -6,6 +6,7 @@
 <%@ include file="/includes/resources_client.jsp"%>
 <script type="text/javascript" src="<%=contextPath%>/ebdpui/common/js/icbc_specialcard_conformity_tools.js"></script>
 <%
+	Log_etc_singleton log_jsp = Log_etc_singleton.getInstance();
 	String mainAreaCode=(String)MySessionContext.getSession(c_sessionId).getAttribute("mainAreaCode");
 	String custName = (String)MySessionContext.getSession(c_sessionId).getAttribute("CNcustName");
 	String custAuthenType=(String)MySessionContext.getSession(c_sessionId).getAttribute("custAuthenType");
@@ -42,16 +43,17 @@ function execute(){
 
 function start(){
 	try{
-		jQuery('#stepDetail').empty();
-		var jndx_mode = $('input:radio:checked').val();
 		
+		jQuery('#stepDetail').empty();
+		jQuery('#stepDetail').text("1");
+		var jndx_mode = $('input:radio:checked').val();
 		if(jndx_mode == "1" ){
 			deviceType="nfc";
 		}else{
 			deviceType="dovila";
 		}
 		jQuery("#stk_mode").val(deviceType);
-		//alert(deviceType);
+		alert(deviceType);
 		//启动服务
 		ICBCSpecialCardTools.startConformityTransmit({
 			'deviceType':deviceType,
@@ -66,6 +68,7 @@ function start(){
 }
 
 function executeTransmit(param){
+	jQuery('#stepDetail').text("2");
 	ICBCSpecialCardTools.executeConformityTransmit({
 		'msgFlag':param.msgFlag,
 		'msgBuf':param.msgBuf,
@@ -151,6 +154,7 @@ function stepCallBack(callBackResult){
 	try{
 		if(callBackResult!=undefined){
 			if (callBackResult.cardErrorCode != undefined) {
+				jQuery('#stepDetail').text("3");
 				//结束服务
 				ICBCSpecialCardTools.endConformityTransmit();
 			}else{
@@ -158,11 +162,13 @@ function stepCallBack(callBackResult){
 				
 				// jQuery在页面#stepDetail区域显示指令执行结果，测试使用
 				if(callBackResult.step==1){	
-					//jQuery('#stepDetail').append("<div><p style='color:red'>step"+callBackResult.step+":<p>"+resultString+"</div>");
+					jQuery('#stepDetail').text("4");
+					jQuery('#stepDetail').append("<div><p style='color:red'>step"+callBackResult.step+":<p>"+resultString+"</div>");
 
 						executeTransmit({'msgFlag':'1','msgBuf':'00a40000023F00','step':2});
 				}else if(callBackResult.step==2){
-					//jQuery('#stepDetail').append("<div><p style='color:red'>step"+callBackResult.step+":<p>"+resultString+"</div>");
+					jQuery('#stepDetail').text("5");
+					jQuery('#stepDetail').append("<div><p style='color:red'>step"+callBackResult.step+":<p>"+resultString+"</div>");
                     if(resultString==null || resultString=="" || resultString.substr(resultString.length-4) != "9000"){
 						//alert("选择快通卡应用失败，请确认卡片是否是快通卡！");
 						jQuery('#stepDetail').append("<div><p style='color:red'>请确认已正确连接快通卡！</div>");
@@ -173,7 +179,7 @@ function stepCallBack(callBackResult){
 						executeTransmit({'msgFlag':'1','msgBuf':'00b0960037','step':3});
                     }
 				}else if(callBackResult.step==3){
-					//jQuery('#stepDetail').append("<div><p style='color:red'>step"+callBackResult.step+":<p>"+resultString+"</div>");
+					jQuery('#stepDetail').append("<div><p style='color:red'>step"+callBackResult.step+":<p>"+resultString+"</div>");
 					
 					if(resultString == null || resultString=="" || resultString.substr(resultString.length-4) != "9000")
 		            {
@@ -184,7 +190,7 @@ function stepCallBack(callBackResult){
 		            	//对上一步查询基本数据返回结果进行处理，取得快通卡姓名
 						cardname = getSTKName(resultString);
 						if(cardname == ""){
-							//alert("获取快通卡姓名失败！");
+							alert("获取快通卡姓名失败！");
 				            sendErrMsg("获取快通卡姓名失败！", errMsg);
 							//ICBCSpecialCardTools.endConformityTransmit();
 				            executeTransmit({'msgFlag':'1','msgBuf':'00a40000021001','step':4});
@@ -195,9 +201,9 @@ function stepCallBack(callBackResult){
 						}
 		            }
 				}else if(callBackResult.step==4){
-					//jQuery('#stepDetail').append("<div><p style='color:red'>step"+callBackResult.step+":<p>"+resultString+"</div>");
+					jQuery('#stepDetail').append("<div><p style='color:red'>step"+callBackResult.step+":<p>"+resultString+"</div>");
 					if(resultString==null || resultString=="" || resultString.substr(resultString.length-4) != "9000"){
-						//alert("选择快通卡应用失败，请确认卡片是否是快通卡！");
+						alert("选择快通卡应用失败，请确认卡片是否是快通卡！");
 						sendErrMsg("选择应用失败，指令：00a40000021001", resultString);
 						ICBCSpecialCardTools.endConformityTransmit();
                     }else{
@@ -205,10 +211,10 @@ function stepCallBack(callBackResult){
 						executeTransmit({'msgFlag':'1','msgBuf':'00b095002b','step':5});
                     }
 				}else if(callBackResult.step==5){
-					//jQuery('#stepDetail').append("<div><p style='color:red'>step"+callBackResult.step+":<p>"+resultString+"</div>");
+					jQuery('#stepDetail').append("<div><p style='color:red'>step"+callBackResult.step+":<p>"+resultString+"</div>");
 					if(resultString==null || resultString=="" || resultString.substr(resultString.length-4) != "9000")
 		            {
-		            	//alert("查询卡片发行数据错误，快通卡查询失败！");
+		            	alert("查询卡片发行数据错误，快通卡查询失败！");
 		            	sendErrMsg("查询卡片发行数据错误，指令：00b095002b", resultString);
 		            	ICBCSpecialCardTools.endConformityTransmit();		            
 		            }else{
@@ -230,7 +236,7 @@ function stepCallBack(callBackResult){
 			            jQuery('#stkNum').html(card_fullid);
 			            jQuery('#stkExpireDate').html(card_end_date);
 			            if(cardType == "23"){
-			            	//alert("记账卡无法查询芯片内行业应用余额！");
+			            	alert("记账卡无法查询芯片内行业应用余额！");
 				            sendErrMsg("记账卡无法查询芯片内行业应用余额", resultString);
 			            	ICBCSpecialCardTools.endConformityTransmit();
 			            }else{
@@ -239,10 +245,10 @@ function stepCallBack(callBackResult){
 			            }
 		            }
 				}else if(callBackResult.step==6){
-					//jQuery('#stepDetail').append("<div><p style='color:red'>step"+callBackResult.step+":<p>"+resultString+"</div>");
+					jQuery('#stepDetail').append("<div><p style='color:red'>step"+callBackResult.step+":<p>"+resultString+"</div>");
 					 if(resultString==null || resultString=="" || resultString.substr(resultString.length-4) != "9000")
 			         {
-			             //alert("卡片PIN校验错误，快通卡查询失败！");
+			             alert("卡片PIN校验错误，快通卡查询失败！");
 			             sendErrMsg("PIN校验失败，指令：0020000003888888", resultString);
 			             ICBCSpecialCardTools.endConformityTransmit();
 			         }else {
@@ -250,10 +256,10 @@ function stepCallBack(callBackResult){
 						executeTransmit({'msgFlag':'1','msgBuf':'805C000204','step':7});
 			         }
 				}else if(callBackResult.step==7){
-					//jQuery('#stepDetail').append("<div><p style='color:red'>step"+callBackResult.step+":<p>"+resultString+"</div>");
+					jQuery('#stepDetail').append("<div><p style='color:red'>step"+callBackResult.step+":<p>"+resultString+"</div>");
 					if(resultString==null || resultString=="" || resultString.substr(resultString.length-4) != "9000")
 		            {
-		            	//alert("读取余额文件异常，快通卡查询失败！");
+		            	alert("读取余额文件异常，快通卡查询失败！");
 		            	sendErrMsg("读取余额文件失败，指令：805C000204", resultString);
 		            	ICBCSpecialCardTools.endConformityTransmit();            
 		            }else{
@@ -270,10 +276,10 @@ function stepCallBack(callBackResult){
 			            }				
 		            }
 				}else if(callBackResult.step==8){
-					//jQuery('#stepDetail').append("<div><p style='color:red'>step"+callBackResult.step+":<p>"+resultString+"</div>");
+					jQuery('#stepDetail').append("<div><p style='color:red'>step"+callBackResult.step+":<p>"+resultString+"</div>");
 					if(resultString==null || resultString=="" || resultString.substr(resultString.length-4) != "9000")
 		            {
-		            	//alert("读取余额文件后续数据异常，快通卡查询失败！");
+		            	alert("读取余额文件后续数据异常，快通卡查询失败！");
 		            	sendErrMsg("读取余额文件后续数据失败，指令："+errCmd, resultString);
 		            	ICBCSpecialCardTools.endConformityTransmit();	
 		            }else{
@@ -284,8 +290,8 @@ function stepCallBack(callBackResult){
 		            	executeTransmit({'msgFlag':'2','msgBuf':'RELEASE','step':9});
 		            }
 				}else if(callBackResult.step==9){
-					//jQuery('#stepDetail').append("<div><p style='color:red'>step"+callBackResult.step+":<p>查询成功！</div>");
-					//alert("查询成功!");
+					jQuery('#stepDetail').append("<div><p style='color:red'>step"+callBackResult.step+":<p>查询成功！</div>");
+					alert("查询成功!");
 					
 					if(RemassAMTHEX == "FFFFFF"){
 				    	//alert("卡内余额已为最大值，不能充值！");
@@ -301,7 +307,7 @@ function stepCallBack(callBackResult){
 					jQuery("#stk_name").val(encodeURI(cardname));
 					jQuery("#stk_cardNo").val(card_fullid);
 					jQuery("#stk_balance").val(byInfo);
-					//jQuery("#stk_balanceHex").val(RemassAMTHEX);
+					jQuery("#stk_balanceHex").val(RemassAMTHEX);
 					ICBCSpecialCardTools.endConformityTransmit();
 				}
 			}
@@ -328,7 +334,7 @@ function stepCallBack(callBackResult){
 	</header>
 
 	<div id="content" class="content">
-		<div id="scroller" class="scroller">		
+		<div id="scroller" class="scroller">
 			<section class="section_padding">
 				<h2 class="section_title">业务说明</h2>
 				<ul class="cell_container">

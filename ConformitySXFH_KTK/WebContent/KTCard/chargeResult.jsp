@@ -1,4 +1,6 @@
 <%@ include file="/includes/contentType_client.jsp"%>
+<%@ page import="com.icbc.sxfh.trade.*" %>
+<%@ page import="com.icbc.sxfh.util.*" %>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <!DOCTYPE html>
 <html>
@@ -16,6 +18,14 @@
 	String mainAreaCode=(String)MySessionContext.getSession(c_sessionId).getAttribute("mainAreaCode");
 	String custName = (String)MySessionContext.getSession(c_sessionId).getAttribute("CNcustName");
 	String custAuthenType=(String)MySessionContext.getSession(c_sessionId).getAttribute("custAuthenType");
+	
+	String name = request.getParameter("stk_name");
+	String cardNo = request.getParameter("stk_cardNo");
+	String balance = request.getParameter("stk_balance");
+	String chargeAmt = request.getParameter("stk_chargeAmt"); 
+	String chargeAmtHex = request.getParameter("stk_chargeAmtHex");
+	String debitCardno = request.getParameter("stk_debitCardno");
+	String stk_mode = request.getParameter("stk_mode"); //
 %>
 <script type="text/javascript">
 //jQuery(document).ready(function(){
@@ -51,7 +61,7 @@ var balance = "<%=request.getParameter("stk_balance")%>";
 var chargeAmt = "<%=request.getParameter("stk_chargeAmt")%>"; 
 var chargeAmtHex = "<%=request.getParameter("stk_chargeAmtHex")%>";
 var debitCardno = "<%=request.getParameter("stk_debitCardno")%>";
-var stk_mode = "<%=request.getParameter("stk_mode")%>"; //20150522
+var stk_mode = "<%=request.getParameter("stk_mode")%>"; //
 var random = "";      //随机数
 var serNo = "";       //卡内交易序号
 var mac= "";          //卡片MAC
@@ -144,8 +154,8 @@ function getNetNo(){
 			areaNo = "0" + areaNo;
 		}
 	}else{
-		areaNo = "004301";
-		custArea = "4301";
+		areaNo = "000501";
+		custArea = "0501";
 	}
 	var strNetno = areaNo + "005588";
 	return strNetno;
@@ -219,8 +229,62 @@ function connMaps(transCode){
 	//var str = "";
 	$.ajaxSetup({
 		async:false});
-	if(transCode == "84358"){
-		transtime = getDateTime();
+	//快通卡信息查询
+	if(transCode == "83581"){
+		<%
+			T83581 trx_83581 = new T83581();
+			trx_83581.setZoneno(mainAreaCode);
+			trx_83581.setBrno("00210");
+			trx_83581.setEtcCardNo(cardNo);
+			trx_83581.query();
+			T83581.Detail detail_83581 = trx_83581.getDetail();
+		%>
+		<%if(trx_83581.isSucceed()){%>
+			ret = 0;
+		<%}else{%>
+			ret = -1;
+			errMsg = <%=trx_83581.getRetmsg()%>;
+		<%}%>
+	}
+	
+	//快通卡充值
+	if(transCode == "83582"){
+		
+		<%
+			T83582 trx_83582 = new T83582();
+			trx_83582.setZoneno(mainAreaCode);
+			trx_83582.setBrno("00210");
+			trx_83582.setReadCardNo12("000000000000");//readCardNo12是一个12的读卡器编号 对应getNetNo()
+			trx_83582.setBankCardNo(debitCardno);//付款卡号
+			trx_83582.setEtcUserNo(detail_83581.getEtcUserNo());
+			trx_83582.setFixCarType(detail_83581.getFixCarType());
+			trx_83582.setFixCarCphm(detail_83581.getFixCarCphm());
+			trx_83582.setEtcCardNo(cardNo);
+			trx_83582.setLocalBalanceF(balance);//充值前余额
+			trx_83582.setQcAmountF(chargeAmt);//充值金额
+			trx_83582.setAmt_bk(detail_83581.getAmt_bk()+"");//补款
+			trx_83582.setAmt_tk(detail_83581.getAmt_tk()+"");//退款
+			trx_83582.setCardSeq(request.getParameter("serNo"));//在js中赋值 
+			trx_83582.setIcRandom(request.getParameter("random"));
+			trx_83582.setMAC1(request.getParameter("mac"));
+			trx_83582.setWriteDate8(Funs.getCurDate("yyyyMMdd"));
+			trx_83582.setWriteTime6(Funs.getCurDate("HHmmss"));
+			trx_83582.query();
+			
+			T83582.Detail detail_83582 = trx_83582.getDetail();
+		
+		%>
+		
+		<%if(trx_83582.isSucceed()){%>
+			ret = 0;
+			mac_key = <%=detail_83582.getMac2()%>;
+			serialNo = <%=detail_83582.getLsh()%>;	
+		<%}else{%>
+			ret = -1;
+			errMsg = <%=trx_83582.getRetmsg()%>;
+		<%}%>
+		
+		 <%-- transtime = getDateTime();
 		//name = decodeURI(name);
 		var str = debitCardno+"|"+cardNo+"|"+chargeAmt+"|"+chargeAmtHex+"|"+balance+"|"+serNo+"|"+getNetNo()+"|"+random+"|"+name+"|"+mac+"|";
 		$.post("<%=urlHead%>/KTCard/ConnectMaps",
@@ -235,10 +299,32 @@ function connMaps(transCode){
 						ret = -1;
 						errMsg = data.retMsg;			
 					}
-				},"json");
+				},"json"); --%> 
 	}
-	if(transCode == "82148"){
-		transtime = getDateTime();
+	//充值确认
+	if(transCode == "83583"){
+		<%
+			T83583 trx_83583 = new T83583();
+			trx_83583.setZoneno(mainAreaCode);
+			trx_83583.setBrno("00210");
+			trx_83583.setEtcCardNo(cardNo);
+			trx_83583.setLocalBalanceF(balance);
+			trx_83583.setQcAmountF(chargeAmt);
+			trx_83583.setAmt_bk(detail_83581.getAmt_bk());
+			trx_83583.setAmt_tk(detail_83581.getAmt_tk());
+			trx_83583.setRetPtLsh(detail_83582.getLsh());
+			trx_83583.setRetLsXLH(detail_83582.getLsXLH());
+			trx_83583.setCardSeq(request.getParameter("serNo"));
+			trx_83583.setFlag("0".equals(request.getParameter("flag"))?true:false); //0-成功;1-失败
+			trx_83583.query();
+		%>
+		<%if(trx_83583.isSucceed()){%>
+			ret = 0;
+		<%}else{%>
+			ret = -1;
+			errMsg = <%=trx_83583.getRetmsg()%>;
+		<%}%>
+		<%-- transtime = getDateTime();
 		var str1 = cardNo+"|"+serialNo+"|"+mac+"|";
 		$.post("<%=urlHead%>/KTCard/ConnectMaps",
 				{"transCode":transCode,"param":str1,"transTime":transtime,"areaNo":custArea,"tag":tag},
@@ -251,7 +337,7 @@ function connMaps(transCode){
 						errMsg = data.retMsg;
 						//alert(data.retMsg);						
 					}
-				},"json");
+				},"json"); --%>
 	}
 	if(transCode == "84420"){
 		transtime = getDateTime();
@@ -283,6 +369,16 @@ function stepCallBack(callBackResult){
 				var resultString=callBackResult.result;		
 				
 				if(callBackResult.step==1){
+					//去第三方查询快通卡信息
+					var ret = connMaps("83581");
+					if(ret != 0){
+		        		//alert(errMsg);
+	        			jQuery('#failure').show();
+	        			jQuery('#errorCode').html("-104");
+						jQuery('#errorMsg').html(errMsg+",查询快通卡信息失败！");
+		             	ICBCSpecialCardTools.endConformityTransmit();
+	        		}
+					
 					//选择应用
 					executeTransmit({'msgFlag':'1','msgBuf':'00a40000021001','step':2});
 				}else if(callBackResult.step==2){					
@@ -331,8 +427,13 @@ function stepCallBack(callBackResult){
 		        			random = resultString.substring(16, 24).toUpperCase();
 			        		serNo = resultString.substring(8, 12).toUpperCase();
 			        		mac = resultString.substring(24, 32).toUpperCase();
-			      
-			        		var ret = connMaps("84358");
+			      			//赋值
+			      			jQuery('#random').html(random);
+			      			jQuery('#serNo').html(serNo);
+			      			jQuery('#mac').html(mac);
+			        		
+			        		//快通卡充值
+			        		var ret = connMaps("83582");
 			        		if(ret != 0){
 				        		//alert(errMsg);
 			        			jQuery('#failure').show();
@@ -345,6 +446,7 @@ function stepCallBack(callBackResult){
 				        			//alert("取充值密钥失败,将自动冲正！");		          
 					             	jQuery('#failure').show();
 					             	jQuery('#errorCode').html("-110");
+					             	//充值失败后冲正
 					             	var ret4 = connMaps("84420");
 					             	if(ret4 == 0){
 										jQuery('#errorMsg').html("取充值密钥失败,自动冲正成功！");
@@ -380,6 +482,7 @@ function stepCallBack(callBackResult){
 		        		random = resultString.substring(16, 24).toUpperCase();
 		        		serNo = resultString.substring(8, 12).toUpperCase();
 		        		mac = resultString.substring(24, 32).toUpperCase();
+		        		//快通卡充值
 		        		var ret1 = connMaps("84358");
 		        		if(ret1 != 0){
 		        			//alert(errMsg);
@@ -393,6 +496,7 @@ function stepCallBack(callBackResult){
 			        			//alert("取充值密钥失败,将自动冲正！");		          
 				             	jQuery('#failure').show();
 				             	jQuery('#errorCode').html("-110");
+				             	//充值失败后冲正
 				             	var ret5 = connMaps("84420");
 				             	if(ret5 == 0){
 									jQuery('#errorMsg').html("取充值密钥失败,自动冲正成功！");
@@ -420,6 +524,8 @@ function stepCallBack(callBackResult){
 		             	//alert("快通卡充值写卡失败,将自动冲正！");		          
 		             	jQuery('#failure').show();
 		             	jQuery('#errorCode').html("-106");
+		             	jQuery('#flag').html("1");
+		             	//充值失败后冲正
 		             	var ret2 = connMaps("84420");
 		             	if(ret2 == 0){
 							jQuery('#errorMsg').html("快通卡充值写卡失败,自动冲正成功！");
@@ -435,6 +541,7 @@ function stepCallBack(callBackResult){
 		        		if(resultString.substring(0, 2) == "61"){
 		        			var strCmd4 = "00C00000" + resultString.substring(2, 4);
 		        			errCmd = strCmd4;
+		        			jQuery('#flag').html("0");
 		        			//读取写卡返回后续数据
 		        			executeTransmit({'msgFlag':'1','msgBuf':strCmd4,'step':7});
 		        		} else {
@@ -560,7 +667,10 @@ function stepCallBack(callBackResult){
 	</header>
 	<div id="content" class="content">
 		<div id="scroller" class="scroller">
-
+			<input type="hidden" name="random" value="" />
+			<input type="hidden" name="serNo" value="" />
+			<input type="hidden" name="mac" value="" />
+			<input type="hidden" name="flag" value="" />
 			<section id="success" class="section_padding" style="display: none">
 				<div class="info_container">
 					<h3 class="info_success"></h3>

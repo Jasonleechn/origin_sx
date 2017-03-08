@@ -51,7 +51,7 @@ public class DataHandlerServlet extends HttpServlet {
 		//tag = URLDecoder.decode(tag);
 		tag = "数据处理DataHandlerServlet---------------"+tag+"-"+type+"--";
 		
-		if(type.equals("getSTKName")){
+		if("getSTKName".equals(type)){
 			response.setContentType("text/html;charset=utf-8"); 
 			String param = request.getParameter("param");  
 			//param = URLDecoder.decode(param,"UTF-8");
@@ -94,7 +94,7 @@ public class DataHandlerServlet extends HttpServlet {
 		    }	
 		}
 		
-		if(type.equals("getXYKInfo")){
+		if("getXYKInfo".equals(type)){
 			response.setContentType("text/html;charset=utf-8"); 
 			String param = request.getParameter("param");  
 			logger.log(tag+"待处理数据："+param);
@@ -142,7 +142,7 @@ public class DataHandlerServlet extends HttpServlet {
 		    }	
 		}
 		
-		if(type.equals("sendErrMsg")){
+		if("sendErrMsg".equals(type)){
 			response.setContentType("text/html;charset=utf-8"); 
 			String param = request.getParameter("param");  
 			param = URLDecoder.decode(param,"UTF-8");
@@ -166,7 +166,7 @@ public class DataHandlerServlet extends HttpServlet {
 		    pw.close(); 	   
 		}
 		
-		if(type.equals("getSingleLimit")){
+		if("getSingleLimit".equals(type)){
 			response.setContentType("text/html;charset=utf-8"); 
 			
 			JSONObject json = new JSONObject(); 

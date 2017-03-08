@@ -1,4 +1,5 @@
 <%@page import="com.icbc.conformity.context.MySessionContext"%>
+<%@page import="com.icbc.sxfh.util.Log_etc_singleton"%>
 <%
 System.out.println("=====contentType_client.jsp=======");
 String zhHead="";
